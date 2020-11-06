@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "670899585141",
+    "firebase_url": "https://helpfem-64554.firebaseio.com",
+    "project_id": "helpfem-64554",
+    "storage_bucket": "helpfem-64554.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:670899585141:android:33b4a70ac9c856b9fb783c",
+        "android_client_info": {
+          "package_name": "com.foobar.helpfem"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "670899585141-jhkod28mn19n4krcajnbonkdngmkqn4i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDD9PkphqktdYDXa3217f58CAfKewp7730"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "670899585141-jhkod28mn19n4krcajnbonkdngmkqn4i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
