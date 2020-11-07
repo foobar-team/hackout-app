@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:foobar/services/database_methods.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:holding_gesture/holding_gesture.dart';
 
 class NotifyDangerScreen extends StatefulWidget {
   @override
@@ -71,7 +72,20 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
     });
   }
 
+  sendSafe() async {
+    setState(() {
+      isLoading = true;
+    });
+    await _databaseMethods.sendSafeAlert();
+    setState(() {
+      alertSent = false;
+      isLoading = false;
+    });
+  }
+
   alertButtonOnPress() async {
+    var user = await _databaseMethods.getUserInfo();
+    print("user info ${user.data()} end");
     this._controller.forward();
   }
 
@@ -96,38 +110,41 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
               return Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  CircularPercentIndicator(
-                    progressColor: Colors.blueGrey,
-                    radius: 200,
-                    lineWidth: 5,
-                    percent: this._controller.value,
-                    startAngle: 0,
-                    center: Padding(
-                      padding: const EdgeInsets.all(3),
-                      child: NeumorphicButton(
-                        onPressed: !alertSent ? alertButtonOnPress : () {},
-                        child: Center(
-                            child: alertSent
-                                ? Text(
-                                    "ALERT SENT!",
-                                    style: TextStyle(fontSize: 25),
-                                  )
-                                : (this._controller.value == 0
-                                    ? Text(
-                                        "Alert",
-                                        style: TextStyle(
-                                            fontSize: 30,
-                                            fontWeight: FontWeight.w300),
-                                      )
-                                    : Text(
-                                        "${(this._controller.value * 5).toStringAsFixed(0)}",
-                                        style: TextStyle(fontSize: 30),
-                                      ))),
-                        style: NeumorphicStyle(
-                          shape: NeumorphicShape.flat,
-                          boxShape: NeumorphicBoxShape.circle(),
-                          depth: 50,
-                          color: Colors.white,
+                  HoldDetector(
+                    onHold: () => {print("holding")},
+                    child: CircularPercentIndicator(
+                      progressColor: Colors.blueGrey,
+                      radius: 200,
+                      lineWidth: 5,
+                      percent: this._controller.value,
+                      startAngle: 0,
+                      center: Padding(
+                        padding: const EdgeInsets.all(3),
+                        child: NeumorphicButton(
+                          onPressed: !alertSent ? alertButtonOnPress : () {},
+                          child: Center(
+                              child: alertSent
+                                  ? Text(
+                                      "ALERT SENT!",
+                                      style: TextStyle(fontSize: 25),
+                                    )
+                                  : (this._controller.value == 0
+                                      ? Text(
+                                          "Alert",
+                                          style: TextStyle(
+                                              fontSize: 30,
+                                              fontWeight: FontWeight.w300),
+                                        )
+                                      : Text(
+                                          "${(this._controller.value * 5).toStringAsFixed(0)}",
+                                          style: TextStyle(fontSize: 30),
+                                        ))),
+                          style: NeumorphicStyle(
+                            shape: NeumorphicShape.convex,
+                            boxShape: NeumorphicBoxShape.circle(),
+                            depth: 50,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
@@ -146,27 +163,30 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
                   alertSent
                       ? Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Padding(
                                 padding: EdgeInsets.symmetric(
-                                    vertical: 10.0, horizontal: 5.0),
+                                    vertical: 40.0, horizontal: 20.0),
                                 child: NeumorphicButton(
                                   onPressed: () {
                                     print('Pressed !');
                                   },
                                   child: Text(
-                                    'Trigger Siren',
+                                    "I'm safe now :-)",
+                                    style: TextStyle(fontSize: 20),
                                   ),
                                 )),
                             Padding(
                                 padding: EdgeInsets.symmetric(
-                                    vertical: 10.0, horizontal: 5.0),
+                                    vertical: 40.0, horizontal: 20.0),
                                 child: NeumorphicButton(
                                   onPressed: () {
                                     print('Pressed !');
                                   },
                                   child: Text(
                                     'Trigger Siren',
+                                    style: TextStyle(fontSize: 20),
                                   ),
                                 ))
                           ],

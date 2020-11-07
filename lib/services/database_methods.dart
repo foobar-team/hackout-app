@@ -3,6 +3,7 @@ import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:foobar/model/danger_notification.dart';
+import 'package:foobar/utils/user_constants.dart';
 import 'package:geolocator/geolocator.dart';
 
 class DatabaseMethods {
@@ -48,6 +49,18 @@ class DatabaseMethods {
     }
   }
 
+  Future getUserInfo() async {
+    try {
+      print("userid: ");
+      print(CONSTANT_UID);
+      String uid = CONSTANT_UID;
+      return await _database.collection("users").doc(uid).get();
+    } on Exception catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
   Future _triggerAlertCloudFunction() async {
     Position userLocation = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
@@ -61,7 +74,38 @@ class DatabaseMethods {
     });
   }
 
+  Future _triggerSafeCloudFunction() async {
+    Position userLocation = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+
+    final HttpsCallable callable = FirebaseFunctions.instance.httpsCallable(
+      'sendDangerAlert',
+    );
+    await callable.call(<String, double>{
+      'latitude': userLocation.latitude,
+      'longitude': userLocation.longitude
+    });
+  }
+
   Future sendDangerAlert() async {
+    try {
+      LocationPermission permission = await Geolocator.checkPermission();
+
+      if (LocationPermission.denied.index == permission.index) {
+        LocationPermission permission2 = await Geolocator.requestPermission();
+
+        if (LocationPermission.whileInUse.index == permission2.index ||
+            LocationPermission.always.index == permission2.index) {
+          await _triggerAlertCloudFunction();
+        }
+      } else if (LocationPermission.whileInUse.index == permission.index ||
+          LocationPermission.always.index == permission.index) {
+        await _triggerAlertCloudFunction();
+      }
+    } on Exception catch (e) {}
+  }
+
+  Future sendSafeAlert() async {
     try {
       LocationPermission permission = await Geolocator.checkPermission();
 
