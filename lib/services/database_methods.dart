@@ -10,10 +10,23 @@ class DatabaseMethods {
   FirebaseFirestore _database = FirebaseFirestore.instance;
   FirebaseMessaging _fcm = FirebaseMessaging();
 
-  Future createUserDocument({String email, String name, String uid, String phone, String city, String aadhar}) async {
+  Future createUserDocument(
+      {String email,
+      String name,
+      String uid,
+      String phone,
+      String city,
+      String aadhar}) async {
     try {
       await _database.collection("users").doc(uid).set(
-        {"email": email, "name": name, "uid": uid, "phone":phone, "city":city,"aadhar":aadhar,},
+        {
+          "email": email,
+          "name": name,
+          "uid": uid,
+          "phone": phone,
+          "city": city,
+          "aadhar": aadhar,
+        },
       );
       print(email);
     } on Exception catch (e) {
@@ -69,9 +82,10 @@ class DatabaseMethods {
     final HttpsCallable callable = FirebaseFunctions.instance.httpsCallable(
       'sendDangerAlert',
     );
-    await callable.call(<String, double>{
+    await callable.call(<String, dynamic>{
       'latitude': userLocation.latitude,
-      'longitude': userLocation.longitude
+      'longitude': userLocation.longitude,
+      'uid': CONSTANT_UID
     });
   }
 

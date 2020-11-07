@@ -64,7 +64,7 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
                           print('Pressed !');
                         },
                         child: Text(
-                          "I'm safe now :-)",
+                          "Record Audio",
                           style: TextStyle(fontSize: 20),
                         ),
                       )),
