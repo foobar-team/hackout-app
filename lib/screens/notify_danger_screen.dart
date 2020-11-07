@@ -214,7 +214,7 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
                                               fontWeight: FontWeight.w300),
                                         )
                                       : Text(
-                                          "${(this._controller.value * 5).toStringAsFixed(0)}",
+                                          "${(5 - this._controller.value * 5).toStringAsFixed(0)}",
                                           style: TextStyle(fontSize: 30),
                                         ))),
                           style: NeumorphicStyle(
