@@ -6,6 +6,7 @@ import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:foobar/services/database_methods.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:holding_gesture/holding_gesture.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class NotifyDangerScreen extends StatefulWidget {
   @override
@@ -44,17 +45,96 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
   showSentDialog() {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        content: ListTile(
-          title: Text("Alert successfully sent"),
-          subtitle: Text("Don't worry! Someone will be coming to help you."),
-        ),
-        actions: <Widget>[
-          FlatButton(
-            child: Text('I am strong.'),
-            onPressed: () => Navigator.pop(context),
+      builder: (context) => Padding(
+        padding: const EdgeInsets.symmetric(vertical: 70, horizontal: 20),
+        child: Neumorphic(
+            child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                      padding: EdgeInsets.symmetric(
+                          vertical: 40.0, horizontal: 20.0),
+                      child: NeumorphicButton(
+                        onPressed: () {
+                          print('Pressed !');
+                        },
+                        child: Text(
+                          "I'm safe now :-)",
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      )),
+                  Padding(
+                      padding: EdgeInsets.symmetric(
+                          vertical: 40.0, horizontal: 20.0),
+                      child: NeumorphicButton(
+                        onPressed: () {
+                          print('Pressed !');
+                        },
+                        child: Text(
+                          'Trigger Siren',
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ))
+                ],
+              ),
+              CarouselSlider(
+                options: CarouselOptions(
+                  height: 300,
+                  aspectRatio: 16 / 9,
+                  viewportFraction: 0.8,
+                  initialPage: 0,
+                  enableInfiniteScroll: true,
+                  reverse: false,
+                  autoPlay: true,
+                  autoPlayInterval: Duration(seconds: 3),
+                  autoPlayAnimationDuration: Duration(milliseconds: 800),
+                  autoPlayCurve: Curves.fastOutSlowIn,
+                  scrollDirection: Axis.horizontal,
+                ),
+                items: [1, 2, 3, 4, 5].map((i) {
+                  return Builder(
+                    builder: (BuildContext context) {
+                      return Container(
+                          width: MediaQuery.of(context).size.width,
+                          margin: EdgeInsets.symmetric(horizontal: 5.0),
+                          decoration: BoxDecoration(
+                              color: Colors.amber,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(5.0))),
+                          child: Text(
+                            'text $i',
+                            style: TextStyle(fontSize: 16.0),
+                          ));
+                    },
+                  );
+                }).toList(),
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                      padding: EdgeInsets.symmetric(
+                          vertical: 40.0, horizontal: 20.0),
+                      child: NeumorphicButton(
+                        onPressed: () {
+                          print('Pressed !');
+                        },
+                        child: Text(
+                          "I'm safe now :-)",
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ))
+                ],
+              ),
+            ],
           ),
-        ],
+        )),
       ),
     );
   }
@@ -84,8 +164,6 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
   }
 
   alertButtonOnPress() async {
-    var user = await _databaseMethods.getUserInfo();
-    print("user info ${user.data()} end");
     this._controller.forward();
   }
 
@@ -158,38 +236,6 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
                               this._controller.reset();
                             },
                           ),
-                        )
-                      : Container(),
-                  alertSent
-                      ? Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 40.0, horizontal: 20.0),
-                                child: NeumorphicButton(
-                                  onPressed: () {
-                                    print('Pressed !');
-                                  },
-                                  child: Text(
-                                    "I'm safe now :-)",
-                                    style: TextStyle(fontSize: 20),
-                                  ),
-                                )),
-                            Padding(
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 40.0, horizontal: 20.0),
-                                child: NeumorphicButton(
-                                  onPressed: () {
-                                    print('Pressed !');
-                                  },
-                                  child: Text(
-                                    'Trigger Siren',
-                                    style: TextStyle(fontSize: 20),
-                                  ),
-                                ))
-                          ],
                         )
                       : Container()
                 ],

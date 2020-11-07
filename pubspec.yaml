@@ -40,6 +40,7 @@ dependencies:
   dots_indicator: ^1.2.0
   transparent_image: ^1.0.0
   google_maps_flutter_heatmap:
+  carousel_slider:
   holding_gesture:
 
 
