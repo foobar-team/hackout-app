@@ -83,9 +83,10 @@ class DatabaseMethods {
     final HttpsCallable callable = FirebaseFunctions.instance.httpsCallable(
       'sendDangerAlert',
     );
-    await callable.call(<String, double>{
+    await callable.call(<String, dynamic>{
       'latitude': userLocation.latitude,
-      'longitude': userLocation.longitude
+      'longitude': userLocation.longitude,
+      'uid': CONSTANT_UID
     });
   }
 

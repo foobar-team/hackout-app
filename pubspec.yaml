@@ -41,6 +41,7 @@ dependencies:
   transparent_image: ^1.0.0
 
   google_maps_flutter_heatmap:
+  carousel_slider:
   holding_gesture:
 
 
