@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foobar/screens/all_notifications.dart';
+import 'package:foobar/screens/live_location.dart';
 import 'package:foobar/screens/notify_danger_screen.dart';
 import 'package:foobar/screens/signin_screen.dart';
 import 'package:foobar/screens/reviews_map.dart';
@@ -16,6 +17,20 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  int _selectedIndex = 0;
+  List<Widget> _widgetOptions = <Widget>[
+    NotifyDangerScreen(),
+    AllNotificationsScreen(),
+    ReviewsMap(),
+    LiveLocation(),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   AuthMethods _authMethods = AuthMethods();
 
   UtilMethods _utilMethods = UtilMethods();
@@ -54,56 +69,55 @@ class _HomeScreenState extends State<HomeScreen> {
     // Geolocator.checkPermission();
     Geolocator.requestPermission();
     updateUserLocation(_authMethods.getCurrentUser().uid);
-
-    return DefaultTabController(
-        length: 3,
-        child: Scaffold(
+    return Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
           backgroundColor: Colors.white,
-          body: TabBarView(children: <Widget>[
-            NotifyDangerScreen(),
-            AllNotificationsScreen(),
-            ReviewsMap()
-          ]),
-          appBar: AppBar(
-            backgroundColor: Colors.white,
-            title: Text(
-              "HelpFem",
-              style: TextStyle(color: Colors.black),
-            ),
-            actions: [
-              IconButton(
-                icon: Icon(
-                  Icons.logout,
-                  color: Colors.blueGrey,
-                ),
-                onPressed: () {
-                  _authMethods.logout();
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, SignInScreen.route, (route) => false);
-                },
-              )
-            ],
-            bottom: TabBar(
-              indicatorColor: Colors.blueGrey,
-              tabs: <Widget>[
-                Tab(
-                    child:
-                        Text("Alert", style: TextStyle(color: Colors.black))),
-                Tab(
-                    child: Text("Notification",
-                        style: TextStyle(color: Colors.black))),
-                Tab(
-                    child: Text("Reviews Map",
-                        style: TextStyle(color: Colors.black)))
-              ],
-            ),
+          title: Text(
+            "HelpHer",
+            style: TextStyle(color: Colors.black),
           ),
+          actions: [
+            IconButton(
+              icon: Icon(
+                Icons.logout,
+                color: Colors.blueGrey,
+              ),
+              onPressed: () {
+                _authMethods.logout();
+                Navigator.pushNamedAndRemoveUntil(
+                    context, SignInScreen.route, (route) => false);
+              },
+            )
+          ],
+        ),
+        body: Center(
+          child: _widgetOptions.elementAt(_selectedIndex),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: Colors.white,
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.announcement),
+              label: 'Alert',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.notifications),
+              label: 'Notifications',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.star),
+              label: 'Reviews',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.location_history),
+              label: 'Live',
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: Color(0xFFFF7274),
+          onTap: _onItemTapped,
         ));
-    // }
-    // }
-    //     return Center(child: CircularProgressIndicator(),);
-    //
-    //   },
-    // );
   }
 }
