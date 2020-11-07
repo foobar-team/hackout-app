@@ -55,7 +55,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
               ),
             )
           : Container(
-              color: Colors.white,
+              color: Color(0xFFF4F6F9),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
@@ -72,9 +72,11 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                         shape: NeumorphicShape.flat,
                         boxShape: NeumorphicBoxShape.circle(),
                       ),
-                      onPressed: () {pageController.previousPage(
-                          duration: Duration(milliseconds: 500),
-                          curve: Curves.ease);},
+                      onPressed: () {
+                        pageController.previousPage(
+                            duration: Duration(milliseconds: 500),
+                            curve: Curves.ease);
+                      },
                     ),
                   ),
                   Padding(
@@ -106,7 +108,7 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
                 ],
               ),
             ),
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xFFF4F6F9),
       body: SafeArea(
         child: Stack(
           children: <Widget>[
@@ -131,16 +133,17 @@ class _IntroductionScreenState extends State<IntroductionScreen> {
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: Container()
-                  // NeumorphicText(
-                  //   "HelpHer",
-                  //   style: NeumorphicStyle(
-                  //     shape: NeumorphicShape.flat,
-                  //     depth: 50, //customize depth here
-                  //     color: Colors.blueGrey, //customize color here
-                  //   ),
-                  //   textStyle: NeumorphicTextStyle(fontSize: 50),
-                  // ),
+                  child: Container(
+                      // child: NeumorphicText(
+                      //   "HelpHer",
+                      //   style: NeumorphicStyle(
+                      //     shape: NeumorphicShape.flat,
+                      //     depth: 50, //customize depth here
+                      //     color: Colors.blueGrey, //customize color here
+                      //   ),
+                      //   textStyle: NeumorphicTextStyle(fontSize: 50),
+                      // ),
+                      ),
                 ),
               ],
             )
@@ -176,11 +179,24 @@ class SliderTile extends StatelessWidget {
         MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
     return Center(
       child: Padding(
-        padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+        padding: EdgeInsets.only(
+          top: MediaQuery.of(context).padding.top,
+          left: 8,
+          right: 8,
+          bottom: 8,
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
+            Text(
+              head,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF3D3D71)),
+            ),
             FadeInImage(
               image: AssetImage(
                 imagePath,
@@ -189,29 +205,22 @@ class SliderTile extends StatelessWidget {
               height: (heightAvailable) * .6,
               placeholder: MemoryImage(kTransparentImage),
             ),
-//            Image.asset(
-//              imagePath,
-//              width: double.infinity,
-//              height: (heightAvailable) * .6,
-//            ),
-          Text(head,textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.bold
-
-            ),),
+            // Image.asset(
+            //   imagePath,
+            //   width: double.infinity,
+            //   height: (heightAvailable) * .6,
+            // ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
-                  body,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: 18,
-
-                  ),
-                ),
+                body,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 18, color: Color(0xFF5C5C67)),
+              ),
             ),
-
+            SizedBox(
+              height: 0,
+            )
           ],
         ),
       ),
