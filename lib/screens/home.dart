@@ -19,9 +19,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   UtilMethods _utilMethods = UtilMethods();
 
-  updateUserLocation(String uid)async {
+  updateUserLocation(String uid) async {
     LocationPermission permission = await Geolocator.checkPermission();
-
 
     if (LocationPermission.whileInUse.index == permission.index ||
         LocationPermission.always.index == permission.index) {
@@ -29,8 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
       Position userLocation = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.high);
       _databaseMethods.updateUserLocation(location: userLocation, uid: uid);
-    }
-    else {
+    } else {
       LocationPermission permission2 = await Geolocator.requestPermission();
 
       if (LocationPermission.whileInUse.index == permission2.index ||
@@ -43,11 +41,8 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-
-
   @override
   Widget build(BuildContext context) {
-
     // return FutureBuilder<LocationPermission>(
     //   future: Geolocator.checkPermission(),
     //   builder:(_,snapshot){
@@ -59,40 +54,42 @@ class _HomeScreenState extends State<HomeScreen> {
     Geolocator.requestPermission();
     updateUserLocation(_authMethods.getCurrentUser().uid);
 
-            return DefaultTabController(
-                length: 2,
-                child: Scaffold(
-                  body: TabBarView(
-                    children: <Widget>[
-                      NotifyDangerScreen(),
-                      AllNotificationsScreen()
-                    ],
-                  ),
-                  appBar: AppBar(
-                    title: Text("HelpFem"),
-                    actions: [
-                      IconButton(icon: Icon(Icons.logout), onPressed: () {
-                        _authMethods.logout();
-                        Navigator.pushNamedAndRemoveUntil(
-                            context, SignInScreen.route, (route) => false);
-                      },)
-                    ],
-                    bottom: TabBar(
-                      tabs: <Widget>[
-                        Tab(
-                          text: "Alert",
-
-                        ),
-                        Tab(
-
-                          text: "Notifications",
-                        )
-                      ],
-                    ),
-                  ),
-                ));
-          // }
-        // }
+    return DefaultTabController(
+        length: 2,
+        child: Scaffold(
+          backgroundColor: Colors.white,
+          body: TabBarView(
+            children: <Widget>[NotifyDangerScreen(), AllNotificationsScreen()],
+          ),
+          appBar: AppBar(
+            backgroundColor: Colors.white,
+            title: Text("HelpFem",style: TextStyle(color: Colors.black),),
+            actions: [
+              IconButton(
+                icon: Icon(Icons.logout,color: Colors.blueGrey,),
+                onPressed: () {
+                  _authMethods.logout();
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, SignInScreen.route, (route) => false);
+                },
+              )
+            ],
+            bottom: TabBar(indicatorColor: Colors.blueGrey,
+              tabs: <Widget>[
+                Tab(
+                  child: Text("Alert",
+                style: TextStyle(color: Colors.black))
+                ),
+                Tab(
+                    child: Text("Notification",
+                        style: TextStyle(color: Colors.black))
+                )
+              ],
+            ),
+          ),
+        ));
+    // }
+    // }
     //     return Center(child: CircularProgressIndicator(),);
     //
     //   },

@@ -3,6 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:foobar/screens/home.dart';
+import 'package:foobar/screens/intro_screen/intro_screen.dart';
 import 'package:foobar/screens/notify_danger_screen.dart';
 import 'package:foobar/screens/signin_screen.dart';
 import 'package:foobar/screens/signup_screen.dart';
@@ -171,7 +172,7 @@ class _MyHomePageState extends State<MyHomePage> {
             );
             return user != null
                 ? HomeScreen()
-                : SignUpScreen();
+                : IntroductionScreen();
           }
 
           // Otherwise, show something whilst waiting for initialization to complete

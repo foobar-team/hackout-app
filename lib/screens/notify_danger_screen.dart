@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:foobar/services/database_methods.dart';
@@ -8,9 +11,33 @@ class NotifyDangerScreen extends StatefulWidget {
   _NotifyDangerScreenState createState() => _NotifyDangerScreenState();
 }
 
-class _NotifyDangerScreenState extends State<NotifyDangerScreen> {
+class _NotifyDangerScreenState extends State<NotifyDangerScreen>
+    with SingleTickerProviderStateMixin {
   DatabaseMethods _databaseMethods = DatabaseMethods();
   bool isLoading = false;
+  AnimationController _controller;
+  bool alertSent = false;
+
+  @override
+  void initState() {
+    super.initState();
+    this._controller = AnimationController(
+      duration: const Duration(seconds: 5),
+      vsync: this,
+    )..addStatusListener((status) async {
+        if (status == AnimationStatus.completed){
+          await sendAlert();
+
+        // _controller.value = -1;
+        print(_controller.value);}
+      });
+  }
+
+  @override
+  void dispose() {
+    this._controller.dispose();
+    super.dispose();
+  }
 
   showSentDialog() {
     showDialog(
@@ -30,15 +57,29 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen> {
     );
   }
 
-  alertButtonOnPress() async {
+  sendAlert() async {
     setState(() {
       isLoading = true;
     });
     await _databaseMethods.sendDangerAlert();
 
     setState(() {
+      alertSent = true;
       isLoading = false;
       showSentDialog();
+    });
+  }
+
+  alertButtonOnPress() async {
+    this._controller.forward();
+  }
+
+  Timer timer;
+
+  void startTimer() {
+    // Start the periodic timer which prints something every 1 seconds
+    timer = Timer.periodic(new Duration(seconds: 1), (time) {
+      print('Something');
     });
   }
 
@@ -46,31 +87,59 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen> {
   Widget build(BuildContext context) {
     return IgnorePointer(
       ignoring: isLoading,
-      child: Stack(children: [
+      child: Stack(
+
+          children: [
         Center(
-          child: CircularPercentIndicator(
-            progressColor: Colors.blueGrey,
-            radius: 60,
-            lineWidth: 5,
-            percent:.5 ,
-            startAngle: 35,
-            center: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                width: 200,
-                height: 200,
-                child: NeumorphicButton(
-                  onPressed: alertButtonOnPress,
-                  child: Center(child: Text("Alert")),
-                  style: NeumorphicStyle(
-                    shape: NeumorphicShape.flat,
-                    boxShape: NeumorphicBoxShape.circle(),
-                    depth: 8,
-                    color: Colors.white,
+          child: AnimatedBuilder(
+            animation: this._controller,
+            builder: (_, ch) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  CircularPercentIndicator(
+                    progressColor: Colors.blueGrey,
+                    radius: 200,
+                    lineWidth: 5,
+                    percent: this._controller.value,
+                    startAngle: 0,
+                    center: Padding(
+                      padding: const EdgeInsets.all(3),
+                      child: NeumorphicButton(
+                        onPressed: !alertSent ? alertButtonOnPress : (){},
+                        child: Center(
+                            child: alertSent ? Text("ALERT SENT!", style: TextStyle(fontSize: 25),) : (this._controller.value == 0
+                                ? Text(
+                                    "ALERT",
+                                    style: TextStyle(fontSize: 30),
+                                  )
+                                : Text(
+                                    "${(this._controller.value * 5).toStringAsFixed(0)}",
+                                    style: TextStyle(fontSize: 30),
+                                  ))),
+                        style: NeumorphicStyle(
+                          shape: NeumorphicShape.flat,
+                          boxShape: NeumorphicBoxShape.circle(),
+                          depth: 50,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-              ),
-            ),
+                  _controller.isAnimating
+                      ? Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: NeumorphicButton(
+                            child: Text("Cancel Alert"),
+                            onPressed: () {
+                              this._controller.reset();
+                            },
+                          ),
+                      )
+                      : Container()
+                ],
+              );
+            },
           ),
         ),
         isLoading
