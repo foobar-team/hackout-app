@@ -39,12 +39,17 @@ dependencies:
   flutter_neumorphic: ^3.0.3
   dots_indicator: ^1.2.0
   transparent_image: ^1.0.0
+
   google_maps_flutter_heatmap:
   carousel_slider:
   holding_gesture:
   flutter_google_places: ^0.2.4
   geocoder: ^0.2.1
   search_map_place: ^0.3.0
+
+
+  flutter_background_geolocation: ^1.9.0
+  background_geolocation_firebase: ^0.1.0
 
 
   # The following adds the Cupertino Icons font to your application.

@@ -1,4 +1,4 @@
-package com.flutter.foobar
+package com.foobar.helpfem
 
 import io.flutter.embedding.android.FlutterActivity
 
