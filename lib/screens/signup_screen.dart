@@ -20,6 +20,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController nameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
+  TextEditingController cityController = TextEditingController();
+  TextEditingController aadharController = TextEditingController();
 
   bool isLoading = false;
 
@@ -41,12 +44,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
           sharedPreferences.setString("uid", user.uid);
           CONSTANT_UID = user.uid;
           await _databaseMethods.createUserDocument(
-              email: user.email, uid: user.uid, name: nameController.text);
+              email: user.email, uid: user.uid, name: nameController.text,phone:phoneController.text,aadhar:aadharController.text,city:cityController.text);
           await _databaseMethods.updateUserFcmToken(uid: user.uid);
 
           Navigator.pushReplacementNamed(context, HomeScreen.route);
         } else {
-
           _scaffoldKey.currentState.showSnackBar(SnackBar(
             content: Text("Something went wrong"),
           ));
@@ -109,13 +111,67 @@ class _SignUpScreenState extends State<SignUpScreen> {
               prefixIcon: Icon(Icons.person),
               hintText: "Name",
               border:
-              OutlineInputBorder(borderRadius: BorderRadius.circular(5)),
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(5)),
+              contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 8)),
+        ));
+
+    final phoneField = Padding(
+        padding: EdgeInsets.all(8),
+        child: TextFormField(
+          controller: phoneController,
+          validator: (value) {
+            if (value.trim().isNotEmpty&&value.length != 16) {
+              return null;
+            }
+            return "Enter a 10 digit valid Phone No.";
+          },
+          decoration: InputDecoration(
+              prefixIcon: Icon(Icons.phone),
+              hintText: "Phone No.",
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(5)),
+              contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 8)),
+        ));
+
+        final cityField = Padding(
+        padding: EdgeInsets.all(8),
+        child: TextFormField(
+          controller: cityController,
+          validator: (value) {
+            if (value.trim().isNotEmpty) {
+              return null;
+            }
+            return "Enter valid City Name";
+          },
+          decoration: InputDecoration(
+              prefixIcon: Icon(Icons.location_city),
+              hintText: "City",
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(5)),
+              contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 8)),
+        ));
+        final aadharField = Padding(
+        padding: EdgeInsets.all(8),
+        child: TextFormField(
+          controller: aadharController,
+          validator: (value) {
+            if (value.trim().isNotEmpty&&value.length != 16) {
+              return null;
+            }
+            return "Enter valid Aadhar No.";
+          },
+          decoration: InputDecoration(
+              prefixIcon: Icon(Icons.perm_identity),
+              hintText: "Aadhar",
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(5)),
               contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 8)),
         ));
 
     final passwordField = Padding(
       padding: EdgeInsets.all(8),
       child: TextFormField(
+        obscureText: true,
         validator: (value) {
           if (value.length >= 6) {
             return null;
@@ -163,8 +219,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     return Scaffold(
       key: _scaffoldKey,
-      body: Stack(
-        children: [IgnorePointer(
+      body: Stack(children: [
+        IgnorePointer(
           ignoring: isLoading,
           child: Form(
             key: _formKey,
@@ -173,25 +229,44 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-
-                  Text("Sign Up",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.blueGrey,fontSize: 35),),
-                  SizedBox(height: 50,),
+                  Text(
+                    "Sign Up",
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blueGrey,
+                        fontSize: 35),
+                  ),
+                  SizedBox(
+                    height: 50,
+                  ),
                   nameField,
                   emailField,
+                  phoneField,
+                  cityField,
+                  aadharField,
                   passwordField,
                   signUpButton,
                   GestureDetector(
-                    child:  Text("Log In",style: TextStyle(color: Colors.blueGrey,fontSize: 20),),
+                    child: Text(
+                      "Log In",
+                      style: TextStyle(color: Colors.blueGrey, fontSize: 20),
+                    ),
                     onTap: () {
-                      Navigator.pushReplacementNamed(context, SignInScreen.route);
+                      Navigator.pushReplacementNamed(
+                          context, SignInScreen.route);
                     },
                   )
                 ],
               ),
             ),
           ),
-        ),isLoading ? Center(child: CircularProgressIndicator(),) : Container()]
-      ),
+        ),
+        isLoading
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : Container()
+      ]),
     );
   }
 }
