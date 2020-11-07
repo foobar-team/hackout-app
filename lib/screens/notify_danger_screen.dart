@@ -1,11 +1,15 @@
 import 'dart:async';
 
+import 'package:background_geolocation_firebase/background_geolocation_firebase.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:foobar/services/database_methods.dart';
+import 'package:foobar/utils/user_constants.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+
 import 'package:holding_gesture/holding_gesture.dart';
+import 'package:flutter_background_geolocation/flutter_background_geolocation.dart' as bg;
 
 class NotifyDangerScreen extends StatefulWidget {
   @override
@@ -24,6 +28,7 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
     super.initState();
     this._controller = AnimationController(
       duration: const Duration(seconds: 5),
+
       vsync: this,
     )..addStatusListener((status) async {
         if (status == AnimationStatus.completed) {
@@ -69,6 +74,49 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
       alertSent = true;
       isLoading = false;
       showSentDialog();
+    });
+    print((await bg.BackgroundGeolocation.getCurrentPosition()).toString()+"ahsdhashdhhell");
+    _initPlatformState(uid:CONSTANT_UID);
+  }
+  Future<Null> _initPlatformState({String uid}) async {
+
+    BackgroundGeolocationFirebase.configure(BackgroundGeolocationFirebaseConfig(
+        locationsCollection: "liveLocations/$uid",
+        // geofencesCollection: "geofences",
+        updateSingleDocument: true
+    ));
+    // Fired whenever the plugin changes motion-state (stationary->moving and vice-versa)
+    bg.BackgroundGeolocation.onMotionChange((bg.Location location) {
+      print('[motionchange] - $location');
+    });
+
+    // Fired whenever the state of location-services changes.  Always fired at boot
+    bg.BackgroundGeolocation.onProviderChange((bg.ProviderChangeEvent event) {
+      print('[providerchange] - $event');
+    });
+    bg.BackgroundGeolocation.onLocation((bg.Location location) {
+      print('[onLocation] $location');
+    });
+
+    bg.BackgroundGeolocation.ready(bg.Config(
+
+      desiredAccuracy: bg.Config.DESIRED_ACCURACY_HIGH,
+      distanceFilter: 1.0,
+      stopOnTerminate: false,
+      startOnBoot: true,
+      debug: true,
+      logLevel: bg.Config.LOG_LEVEL_VERBOSE,
+      enableHeadless: true,
+      // stopOnTerminate: false,
+      // startOnBoot: true,
+      // debug: true,
+    )).then((bg.State state) {
+      if (!state.enabled) {
+        ////
+        // 3.  Start the plugin.
+        //
+        bg.BackgroundGeolocation.start();
+      }
     });
   }
 

@@ -3,6 +3,7 @@ import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:foobar/model/danger_notification.dart';
+import 'package:foobar/model/local_user.dart';
 import 'package:foobar/utils/user_constants.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -10,10 +11,23 @@ class DatabaseMethods {
   FirebaseFirestore _database = FirebaseFirestore.instance;
   FirebaseMessaging _fcm = FirebaseMessaging();
 
-  Future createUserDocument({String email, String name, String uid, String phone, String city, String aadhar}) async {
+  Future createUserDocument(
+      {String email,
+      String name,
+      String uid,
+      String phone,
+      String city,
+      String aadhar}) async {
     try {
       await _database.collection("users").doc(uid).set(
-        {"email": email, "name": name, "uid": uid, "phone":phone, "city":city,"aadhar":aadhar,},
+        {
+          "email": email,
+          "name": name,
+          "uid": uid,
+          "phone": phone,
+          "city": city,
+          "aadhar": aadhar,
+        },
       );
       print(email);
     } on Exception catch (e) {
@@ -143,5 +157,52 @@ class DatabaseMethods {
             time: e.data()["time"]);
       }).toList();
     });
+  }
+
+  Future<bool> isMobileNumberRegistered({String phone}) async {
+    QuerySnapshot querySnapshot = await _database
+        .collection("users")
+        .where("phone", isEqualTo: phone)
+        .get();
+    if (querySnapshot.docs.length > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> addTrustedContacts({String mobileNumber}) async {
+    QuerySnapshot querySnapshot = await _database
+        .collection("users")
+        .where("phone", isEqualTo: mobileNumber)
+        .get();
+    if (querySnapshot.docs.length > 0) {
+      await _database.collection("users").doc(CONSTANT_UID).update({
+        "trustedContacts":
+            FieldValue.arrayUnion([querySnapshot.docs[0].data()["uid"]])
+      });
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Stream<List<LocalUser>> getPeopleWhoTrustMe() {
+    return _database
+        .collection("users")
+        .where("trustedContacts", arrayContains: CONSTANT_UID)
+        .snapshots()
+        .map((event) => event.docs
+            .map((e) => firebaseUserToLocalUser(snapshot: e))
+            .toList());
+  }
+
+  LocalUser firebaseUserToLocalUser({QueryDocumentSnapshot snapshot}) {
+    return LocalUser(
+        name: snapshot["name"],
+        adhaar: snapshot["adhaar"],
+        city: snapshot["city"],
+        isSafe: snapshot["isSafe"],
+        phone: snapshot["phone"]);
   }
 }
