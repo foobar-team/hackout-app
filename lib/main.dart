@@ -13,15 +13,11 @@ import 'package:foobar/utils/methods.dart';
 import 'package:foobar/utils/user_constants.dart';
 import 'package:geolocator/geolocator.dart';
 
-
-
-
 import 'package:workmanager/workmanager.dart';
 
 const fetchBackground = "fetchLocationBackground"; //
 
 void callbackDispatcher() {
-
   Workmanager.executeTask((task, inputData) async {
     await Firebase.initializeApp();
     DatabaseMethods _databaseMethods = DatabaseMethods();
@@ -29,10 +25,11 @@ void callbackDispatcher() {
     auth.User user = _authMethods.getCurrentUser();
     switch (task) {
       case fetchBackground:
-        if(user != null) {
+        if (user != null) {
           Position userLocation = await Geolocator.getCurrentPosition(
               desiredAccuracy: LocationAccuracy.high);
-          _databaseMethods.updateUserLocation(location:userLocation, uid:user.uid);
+          _databaseMethods.updateUserLocation(
+              location: userLocation, uid: user.uid);
         }
 
         break;
@@ -44,41 +41,32 @@ void callbackDispatcher() {
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: ThemeData(primarySwatch: Colors.blue, fontFamily: 'Made Tommy'),
       home: MyHomePage(),
       routes: {
         SignUpScreen.route: (_) => SignUpScreen(),
         SignInScreen.route: (_) => SignInScreen(),
-        HomeScreen.route:(_)=>HomeScreen(),
+        HomeScreen.route: (_) => HomeScreen(),
       },
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-
-
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
-
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
   UtilMethods _utilMethods = UtilMethods();
 
-
-
-  configureFcm(){
+  configureFcm() {
     FirebaseMessaging _fcm = FirebaseMessaging();
     _fcm.configure(
       onMessage: (Map<String, dynamic> message) async {
@@ -93,7 +81,9 @@ class _MyHomePageState extends State<MyHomePage> {
             actions: <Widget>[
               FlatButton(
                 child: Text('Open location in Maps'),
-                onPressed: () => _utilMethods.openMap(double.parse(message['data']['latitude']), double.parse(message['data']['longitude'])),
+                onPressed: () => _utilMethods.openMap(
+                    double.parse(message['data']['latitude']),
+                    double.parse(message['data']['longitude'])),
               ),
             ],
           ),
@@ -101,43 +91,40 @@ class _MyHomePageState extends State<MyHomePage> {
       },
       onLaunch: (Map<String, dynamic> message) async {
         print("onLaunch: $message");
-        _utilMethods.openMap(double.parse(message['data']['latitude']), double.parse(message['data']['longitude']));
+        _utilMethods.openMap(double.parse(message['data']['latitude']),
+            double.parse(message['data']['longitude']));
         // TODO optional
       },
       onResume: (Map<String, dynamic> message) async {
         print("onResume: $message");
-        _utilMethods.openMap(double.parse(message['data']['latitude']), double.parse(message['data']['longitude']));
+        _utilMethods.openMap(double.parse(message['data']['latitude']),
+            double.parse(message['data']['longitude']));
         // TODO optional
       },
     );
   }
 
-  updateUserLocation(String uid)async{
+  updateUserLocation(String uid) async {
     LocationPermission permission = await Geolocator.checkPermission();
 
-
-    if (LocationPermission.whileInUse.index == permission.index || LocationPermission.always.index == permission.index) {
+    if (LocationPermission.whileInUse.index == permission.index ||
+        LocationPermission.always.index == permission.index) {
       DatabaseMethods _databaseMethods = DatabaseMethods();
       Position userLocation = await Geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.high);
-      _databaseMethods.updateUserLocation(location:userLocation, uid:uid);
-    }
-    else{
+      _databaseMethods.updateUserLocation(location: userLocation, uid: uid);
+    } else {
       LocationPermission permission2 = await Geolocator.requestPermission();
 
       if (LocationPermission.whileInUse.index == permission2.index ||
           LocationPermission.always.index == permission2.index) {
-
-
         DatabaseMethods _databaseMethods = DatabaseMethods();
         Position userLocation = await Geolocator.getCurrentPosition(
             desiredAccuracy: LocationAccuracy.high);
-        _databaseMethods.updateUserLocation(location:userLocation, uid:uid);
+        _databaseMethods.updateUserLocation(location: userLocation, uid: uid);
       }
     }
-
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -146,18 +133,21 @@ class _MyHomePageState extends State<MyHomePage> {
         builder: (context, snapshot) {
           // Check for errors
           if (snapshot.hasError) {
-            return Scaffold(body: Center(child: Text("Something went wrong"),),);
+            return Scaffold(
+              body: Center(
+                child: Text("Something went wrong"),
+              ),
+            );
           }
 
           // Once complete, show your application
           if (snapshot.connectionState == ConnectionState.done) {
             AuthMethods _authMethods = AuthMethods();
             auth.User user = _authMethods.getCurrentUser();
-            if(user != null) {
+            if (user != null) {
               CONSTANT_UID = user.uid;
-             updateUserLocation(user.uid);
+              updateUserLocation(user.uid);
             }
-
 
             configureFcm();
             Workmanager.initialize(
@@ -170,14 +160,15 @@ class _MyHomePageState extends State<MyHomePage> {
               fetchBackground,
               frequency: Duration(minutes: 30),
             );
-            return user != null
-                ? HomeScreen()
-                : IntroductionScreen();
+            return user != null ? HomeScreen() : IntroductionScreen();
           }
 
           // Otherwise, show something whilst waiting for initialization to complete
-          return Scaffold(body: Center(child: CircularProgressIndicator(),),);
+          return Scaffold(
+            body: Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
         });
-
   }
 }

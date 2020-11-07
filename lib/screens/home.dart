@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:foobar/screens/all_notifications.dart';
 import 'package:foobar/screens/notify_danger_screen.dart';
 import 'package:foobar/screens/signin_screen.dart';
+import 'package:foobar/screens/reviews_map.dart';
 import 'package:foobar/services/auth_methods.dart';
 import 'package:foobar/services/database_methods.dart';
 import 'package:foobar/utils/methods.dart';
@@ -55,18 +56,26 @@ class _HomeScreenState extends State<HomeScreen> {
     updateUserLocation(_authMethods.getCurrentUser().uid);
 
     return DefaultTabController(
-        length: 2,
+        length: 3,
         child: Scaffold(
           backgroundColor: Colors.white,
-          body: TabBarView(
-            children: <Widget>[NotifyDangerScreen(), AllNotificationsScreen()],
-          ),
+          body: TabBarView(children: <Widget>[
+            NotifyDangerScreen(),
+            AllNotificationsScreen(),
+            ReviewsMap()
+          ]),
           appBar: AppBar(
             backgroundColor: Colors.white,
-            title: Text("HelpFem",style: TextStyle(color: Colors.black),),
+            title: Text(
+              "HelpFem",
+              style: TextStyle(color: Colors.black),
+            ),
             actions: [
               IconButton(
-                icon: Icon(Icons.logout,color: Colors.blueGrey,),
+                icon: Icon(
+                  Icons.logout,
+                  color: Colors.blueGrey,
+                ),
                 onPressed: () {
                   _authMethods.logout();
                   Navigator.pushNamedAndRemoveUntil(
@@ -74,16 +83,18 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
               )
             ],
-            bottom: TabBar(indicatorColor: Colors.blueGrey,
+            bottom: TabBar(
+              indicatorColor: Colors.blueGrey,
               tabs: <Widget>[
                 Tab(
-                  child: Text("Alert",
-                style: TextStyle(color: Colors.black))
-                ),
+                    child:
+                        Text("Alert", style: TextStyle(color: Colors.black))),
                 Tab(
                     child: Text("Notification",
-                        style: TextStyle(color: Colors.black))
-                )
+                        style: TextStyle(color: Colors.black))),
+                Tab(
+                    child: Text("Reviews Map",
+                        style: TextStyle(color: Colors.black)))
               ],
             ),
           ),

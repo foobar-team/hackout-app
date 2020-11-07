@@ -25,11 +25,12 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
       duration: const Duration(seconds: 5),
       vsync: this,
     )..addStatusListener((status) async {
-        if (status == AnimationStatus.completed){
+        if (status == AnimationStatus.completed) {
           await sendAlert();
 
-        // _controller.value = -1;
-        print(_controller.value);}
+          // _controller.value = -1;
+          print(_controller.value);
+        }
       });
   }
 
@@ -44,7 +45,7 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
       context: context,
       builder: (context) => AlertDialog(
         content: ListTile(
-          title: Text("Alert Sent"),
+          title: Text("Alert successfully sent"),
           subtitle: Text("Don't worry! Someone will be coming to help you."),
         ),
         actions: <Widget>[
@@ -87,9 +88,7 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
   Widget build(BuildContext context) {
     return IgnorePointer(
       ignoring: isLoading,
-      child: Stack(
-
-          children: [
+      child: Stack(children: [
         Center(
           child: AnimatedBuilder(
             animation: this._controller,
@@ -106,17 +105,24 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
                     center: Padding(
                       padding: const EdgeInsets.all(3),
                       child: NeumorphicButton(
-                        onPressed: !alertSent ? alertButtonOnPress : (){},
+                        onPressed: !alertSent ? alertButtonOnPress : () {},
                         child: Center(
-                            child: alertSent ? Text("ALERT SENT!", style: TextStyle(fontSize: 25),) : (this._controller.value == 0
+                            child: alertSent
                                 ? Text(
-                                    "ALERT",
-                                    style: TextStyle(fontSize: 30),
+                                    "ALERT SENT!",
+                                    style: TextStyle(fontSize: 25),
                                   )
-                                : Text(
-                                    "${(this._controller.value * 5).toStringAsFixed(0)}",
-                                    style: TextStyle(fontSize: 30),
-                                  ))),
+                                : (this._controller.value == 0
+                                    ? Text(
+                                        "Alert",
+                                        style: TextStyle(
+                                            fontSize: 30,
+                                            fontWeight: FontWeight.w300),
+                                      )
+                                    : Text(
+                                        "${(this._controller.value * 5).toStringAsFixed(0)}",
+                                        style: TextStyle(fontSize: 30),
+                                      ))),
                         style: NeumorphicStyle(
                           shape: NeumorphicShape.flat,
                           boxShape: NeumorphicBoxShape.circle(),
@@ -128,14 +134,43 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
                   ),
                   _controller.isAnimating
                       ? Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: NeumorphicButton(
+                          padding: const EdgeInsets.all(16.0),
+                          child: NeumorphicButton(
                             child: Text("Cancel Alert"),
                             onPressed: () {
                               this._controller.reset();
                             },
                           ),
-                      )
+                        )
+                      : Container(),
+                  alertSent
+                      ? Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 10.0, horizontal: 5.0),
+                                child: NeumorphicButton(
+                                  onPressed: () {
+                                    print('Pressed !');
+                                  },
+                                  child: Text(
+                                    'Trigger Siren',
+                                  ),
+                                )),
+                            Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 10.0, horizontal: 5.0),
+                                child: NeumorphicButton(
+                                  onPressed: () {
+                                    print('Pressed !');
+                                  },
+                                  child: Text(
+                                    'Trigger Siren',
+                                  ),
+                                ))
+                          ],
+                        )
                       : Container()
                 ],
               );

@@ -48,7 +48,7 @@ class DatabaseMethods {
     }
   }
 
-  Future triggerAlertCloudFunction() async {
+  Future _triggerAlertCloudFunction() async {
     Position userLocation = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
 
@@ -70,11 +70,11 @@ class DatabaseMethods {
 
         if (LocationPermission.whileInUse.index == permission2.index ||
             LocationPermission.always.index == permission2.index) {
-          await triggerAlertCloudFunction();
+          await _triggerAlertCloudFunction();
         }
       } else if (LocationPermission.whileInUse.index == permission.index ||
           LocationPermission.always.index == permission.index) {
-        await triggerAlertCloudFunction();
+        await _triggerAlertCloudFunction();
       }
     } on Exception catch (e) {}
   }
@@ -84,7 +84,8 @@ class DatabaseMethods {
     return _database
         .collection("users")
         .doc(uid)
-        .collection("dangerNotifications").orderBy("time",descending: true)
+        .collection("dangerNotifications")
+        .orderBy("time", descending: true)
         .snapshots()
         .map((event) {
       print(event);
