@@ -35,7 +35,11 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
       "content":
           "If You have key then hold your key ring in a tight fist, like holding a hammer, with keys extending from the side of your hand. Thrust downward toward your target."
     },
-    {"title": "sdfsd", "content": "sadad"},
+    {
+      "title": "What if someone is following you and it's night time?",
+      "content":
+          "Don't run as you could get yourself in a big trap with the stalker and if you really feel scared, stop at a well-lit public place, such as a restaurant or hotel. Call the police or family and friends and ask them to escort you to your home, or stay with them (either police or family and friends) for a while."
+    },
     {"title": "", "content": ""},
     {"title": "", "content": ""},
     {"title": "", "content": ""},
@@ -62,121 +66,6 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
   void dispose() {
     this._controller.dispose();
     super.dispose();
-  }
-
-  showSentDialog() {
-    showDialog(
-      context: context,
-      builder: (context) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 70, horizontal: 20),
-        child: Neumorphic(
-            child: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 20.0, horizontal: 10.0),
-                      child: NeumorphicButton(
-                        onPressed: () {
-                          print('Pressed !');
-                        },
-                        child: Text(
-                          "Record Audio",
-                          style: TextStyle(fontSize: 20),
-                        ),
-                      )),
-                  Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 20.0, horizontal: 10.0),
-                      child: NeumorphicButton(
-                        onPressed: () {
-                          _utilMethods.startSilern();
-                        },
-                        child: Text(
-                          'Trigger Siren',
-                          style: TextStyle(fontSize: 20),
-                        ),
-                      ))
-                ],
-              ),
-              CarouselSlider(
-                options: CarouselOptions(
-                  height: 300,
-                  aspectRatio: 16 / 9,
-                  viewportFraction: 0.8,
-                  initialPage: 0,
-                  enableInfiniteScroll: true,
-                  reverse: false,
-                  autoPlay: true,
-                  autoPlayInterval: Duration(seconds: 3),
-                  autoPlayAnimationDuration: Duration(milliseconds: 800),
-                  autoPlayCurve: Curves.fastOutSlowIn,
-                  scrollDirection: Axis.horizontal,
-                ),
-                items: [1, 2, 3, 4, 5].map((i) {
-                  return Builder(
-                    builder: (BuildContext context) {
-                      return Container(
-                          alignment: Alignment.center,
-                          width: MediaQuery.of(context).size.width,
-                          margin: EdgeInsets.symmetric(horizontal: 5.0),
-                          decoration: BoxDecoration(
-                              color: Colors.amber,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5.0))),
-                          child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 20.0, horizontal: 20.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                      padding: EdgeInsets.only(bottom: 30.0),
-                                      child: Text(
-                                        selfdefense[i - 1]["title"],
-                                        style: TextStyle(fontSize: 16.0),
-                                        textAlign: TextAlign.center,
-                                      )),
-                                  Text(
-                                    selfdefense[i - 1]["content"],
-                                    style: TextStyle(fontSize: 16.0),
-                                    textAlign: TextAlign.center,
-                                  )
-                                ],
-                              )));
-                    },
-                  );
-                }).toList(),
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 20.0, horizontal: 20.0),
-                      child: NeumorphicButton(
-                        onPressed: () {
-                          sendSafe();
-                        },
-                        child: Text(
-                          "I'm safe now :-)",
-                          style: TextStyle(fontSize: 20),
-                        ),
-                      ))
-                ],
-              ),
-            ],
-          ),
-        )),
-      ),
-    );
   }
 
   sendAlert() async {
@@ -250,15 +139,6 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
 
   alertButtonOnPress() async {
     this._controller.forward();
-  }
-
-  Timer timer;
-
-  void startTimer() {
-    // Start the periodic timer which prints something every 1 seconds
-    timer = Timer.periodic(new Duration(seconds: 1), (time) {
-      print('Something');
-    });
   }
 
   @override
@@ -462,30 +342,3 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
     );
   }
 }
-
-// InkWell(
-// onTap: () async {
-// setState(() {
-// isLoading = true;
-// });
-// await _databaseMethods.sendDangerAlert();
-//
-// setState(() {
-// isLoading = false;
-// showSentDialog();
-// });
-// },
-// child: Padding(
-// padding: const EdgeInsets.all(8.0),
-// child: Container(
-// width: 200,
-// height: 200,
-// color: Colors.grey,
-// child: IconButton(
-// color: Colors.white,
-// icon: Icon(Icons.report_gmailerrorred_outlined),
-// iconSize: 100,
-// ),
-// ),
-// ),
-// ),
