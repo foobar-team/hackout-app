@@ -52,9 +52,9 @@ class MapSampleState extends State<ReviewsMap> {
   }
 
   final List<Map> dummyPlaces = [
-    {"city": "Bhopal", "latitude": 1, "longitude": 2},
-    {"city": "Jhansi", "latitude": 1, "longitude": 2},
-    {"city": "Delhi", "latitude": 1, "longitude": 2}
+    {"city": "Bhopal", "latitude": 23.2599, "longitude": 77.4126},
+    {"city": "Jhansi", "latitude": 1.1, "longitude": 2.1},
+    {"city": "Delhi", "latitude": 1.1, "longitude": 2.1}
   ];
 
   Map reviewLoc = {"latitude": 1, "longitude": 1};
@@ -597,8 +597,27 @@ class MapSampleState extends State<ReviewsMap> {
                             itemBuilder: (context, index) {
                               return ListTile(
                                 title: Text(_searchPlaces[index]["city"]),
-                                onTap: () {
+                                onTap: () async {
+                                  var latitude = _searchPlaces[index]["latitude"];
+                                  var longitude =  _searchPlaces[index]["longitude"];
+                                  CameraPosition cPosition = CameraPosition(
+                                      zoom: 14.5,
+                                      target: LatLng(latitude,
+                                          longitude),
+                                    );
+                                    final GoogleMapController controller = await _controller.future;
+                                    controller.animateCamera(CameraUpdate.newCameraPosition(cPosition));
                                   print(_searchPlaces[index]);
+                                  setState((){
+                                    _searchPlaces = [];
+                                    _markers = {
+                                      Marker(
+                                       markerId: MarkerId('value'),
+                                       position: LatLng(latitude, longitude)
+                                       )
+                                       };
+                                      
+                                  });
                                 },
                               );
                             },
