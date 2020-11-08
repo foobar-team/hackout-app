@@ -44,7 +44,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
           sharedPreferences.setString("uid", user.uid);
           CONSTANT_UID = user.uid;
           await _databaseMethods.createUserDocument(
-              email: user.email, uid: user.uid, name: nameController.text,phone:phoneController.text,aadhar:aadharController.text,city:cityController.text);
+              email: user.email,
+              uid: user.uid,
+              name: nameController.text,
+              phone: phoneController.text,
+              aadhar: aadharController.text,
+              city: cityController.text);
           await _databaseMethods.updateUserFcmToken(uid: user.uid);
 
           Navigator.pushReplacementNamed(context, HomeScreen.route);
@@ -120,7 +125,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         child: TextFormField(
           controller: phoneController,
           validator: (value) {
-            if (value.trim().isNotEmpty&&value.length != 16) {
+            if (value.trim().isNotEmpty && value.length != 16) {
               return null;
             }
             return "Enter a 10 digit valid Phone No.";
@@ -133,7 +138,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 8)),
         ));
 
-        final cityField = Padding(
+    final cityField = Padding(
         padding: EdgeInsets.all(8),
         child: TextFormField(
           controller: cityController,
@@ -150,12 +155,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   OutlineInputBorder(borderRadius: BorderRadius.circular(5)),
               contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 8)),
         ));
-        final aadharField = Padding(
+    
+    final aadharField = Padding(
         padding: EdgeInsets.all(8),
         child: TextFormField(
           controller: aadharController,
           validator: (value) {
-            if (value.trim().isNotEmpty&&value.length != 16) {
+            if (value.trim().isNotEmpty && value.length != 16) {
               return null;
             }
             return "Enter valid Aadhar No.";
@@ -219,54 +225,58 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     return Scaffold(
       key: _scaffoldKey,
-      body: Stack(children: [
-        IgnorePointer(
-          ignoring: isLoading,
-          child: Form(
-            key: _formKey,
+      body:  Stack(children: [
+          IgnorePointer(
+            ignoring: isLoading,
             child: Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Text(
-                    "Sign Up",
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.blueGrey,
-                        fontSize: 35),
-                  ),
-                  SizedBox(
-                    height: 50,
-                  ),
-                  nameField,
-                  emailField,
-                  phoneField,
-                  cityField,
-                  aadharField,
-                  passwordField,
-                  signUpButton,
-                  GestureDetector(
-                    child: Text(
-                      "Log In",
-                      style: TextStyle(color: Colors.blueGrey, fontSize: 20),
+              child: SingleChildScrollView(
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Text(
+                          "Sign Up",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.blueGrey,
+                              fontSize: 35),
+                        ),
+                        SizedBox(
+                          height: 50,
+                        ),
+                        nameField,
+                        emailField,
+                        phoneField,
+                        cityField,
+                        aadharField,
+                        passwordField,
+                        signUpButton,
+                        GestureDetector(
+                          child: Text(
+                            "Log In",
+                            style: TextStyle(color: Colors.blueGrey, fontSize: 20),
+                          ),
+                          onTap: () {
+                            Navigator.pushReplacementNamed(
+                                context, SignInScreen.route);
+                          },
+                        )
+                      ],
                     ),
-                    onTap: () {
-                      Navigator.pushReplacementNamed(
-                          context, SignInScreen.route);
-                    },
-                  )
-                ],
+
+                ),
               ),
             ),
           ),
-        ),
-        isLoading
-            ? Center(
-                child: CircularProgressIndicator(),
-              )
-            : Container()
-      ]),
+          isLoading
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : Container()
+        ]),
+
     );
   }
 }

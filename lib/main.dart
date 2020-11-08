@@ -5,6 +5,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:foobar/screens/home.dart';
 import 'package:foobar/screens/intro_screen/intro_screen.dart';
+import 'package:foobar/screens/live_location.dart';
 import 'package:foobar/screens/notify_danger_screen.dart';
 import 'package:foobar/screens/signin_screen.dart';
 import 'package:foobar/screens/signup_screen.dart';
@@ -111,6 +112,8 @@ class MyApp extends StatelessWidget {
         SignUpScreen.route: (_) => SignUpScreen(),
         SignInScreen.route: (_) => SignInScreen(),
         HomeScreen.route: (_) => HomeScreen(),
+        LiveLocation.route:(_) =>LiveLocation()
+
       },
     );
   }
