@@ -144,335 +144,352 @@ class MapSampleState extends State<ReviewsMap> {
                 ),
                 child: Form(
                   key: _formKey,
-                  child: Column(
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Container(
-                          width: double.infinity,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Column(
-                                children: [
-                                  ListTile(
-                                    title: Text(
-                                      "How is the lighthing at this locality?",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w600),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Container(
+                            width: double.infinity,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Column(
+                                  children: [
+                                    ListTile(
+                                      title: Text(
+                                        "How is the lighthing at this locality?",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w600),
+                                      ),
                                     ),
-                                  ),
-                                  Row(
-                                    children: [
-                                      Radio(
-                                        value: 0,
-                                        groupValue: q1,
-                                        onChanged: (val) {
-                                          state(() {
-                                            q1 = val;
-                                          });
-                                        },
-                                      ),
-                                      Flexible(
-                                        child: Text('Very Good'),
-                                      ),
-                                      Radio(
-                                        value: 1,
-                                        groupValue: q1,
-                                        onChanged: (val) {
-                                          state(() {
-                                            q1 = val;
-                                          });
-                                        },
-                                      ),
-                                      Flexible(
-                                        child: Text('Good'),
-                                      ),
-                                      Radio(
-                                        value: 2,
-                                        groupValue: q1,
-                                        onChanged: (val) {
-                                          state(() {
-                                            q1 = val;
-                                          });
-                                        },
-                                      ),
-                                      Flexible(
-                                        child: Text('Okay'),
-                                      ),
-                                      Radio(
-                                        value: 3,
-                                        groupValue: q1,
-                                        onChanged: (val) {
-                                          state(() {
-                                            q1 = val;
-                                          });
-                                        },
-                                      ),
-                                      Flexible(
-                                        child: Text('Bad'),
-                                      )
-                                    ],
-                                  ),
-                                  ListTile(
-                                    title: Text(
-                                      "How crowded is the place normally?",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                  ),
-                                  Row(
-                                    children: [
-                                      Radio(
-                                        value: 0,
-                                        groupValue: q2,
-                                        onChanged: (val) {
-                                          state(() {
-                                            q2 = val;
-                                          });
-                                        },
-                                      ),
-                                      Flexible(child: Text('Crowded')),
-                                      Radio(
-                                        value: 1,
-                                        groupValue: q2,
-                                        onChanged: (val) {
-                                          state(() {
-                                            q2 = val;
-                                          });
-                                        },
-                                      ),
-                                      Flexible(child: Text('Normal')),
-                                      Radio(
-                                        value: 2,
-                                        groupValue: q2,
-                                        onChanged: (val) {
-                                          state(() {
-                                            q2 = val;
-                                          });
-                                        },
-                                      ),
-                                      Flexible(
-                                        child: Text('Deserted'),
-                                      ),
-                                    ],
-                                  ),
-                                  ListTile(
-                                    title: Text(
-                                      "Can you take alternative routes that are well lit?",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                  ),
-                                  Row(
-                                    children: [
-                                      Radio(
-                                        value: 0,
-                                        groupValue: q3,
-                                        onChanged: (val) {
-                                          state(() {
-                                            q3 = val;
-                                          });
-                                        },
-                                      ),
-                                      Flexible(
-                                        child: Text('Yes'),
-                                      ),
-                                      Radio(
-                                        value: 1,
-                                        groupValue: q3,
-                                        onChanged: (val) {
-                                          state(() {
-                                            q3 = val;
-                                          });
-                                        },
-                                      ),
-                                      Flexible(child: Text('No')),
-                                      Radio(
-                                        value: 2,
-                                        groupValue: q3,
-                                        onChanged: (val) {
-                                          state(() {
-                                            q3 = val;
-                                          });
-                                        },
-                                      ),
-                                      Flexible(
-                                        child: Text('Don\'t know'),
-                                      )
-                                    ],
-                                  ),
-                                  ListTile(
-                                    title: Text(
-                                      " How close is the nearest police station?",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                  ),
-                                  Row(
-                                    children: [
-                                      Radio(
-                                        value: 0,
-                                        groupValue: q4,
-                                        onChanged: (val) {
-                                          state(() {
-                                            q4 = val;
-                                          });
-                                        },
-                                      ),
-                                      Flexible(child: Text('< 1km')),
-                                      Radio(
-                                        value: 1,
-                                        groupValue: q4,
-                                        onChanged: (val) {
-                                          state(() {
-                                            q4 = val;
-                                          });
-                                        },
-                                      ),
-                                      Flexible(child: Text('1-5 km')),
-                                      Radio(
-                                        value: 2,
-                                        groupValue: q4,
-                                        onChanged: (val) {
-                                          state(() {
-                                            q4 = val;
-                                          });
-                                        },
-                                      ),
-                                      Flexible(child: Text('5+ km')),
-                                      Radio(
-                                        value: 3,
-                                        groupValue: q4,
-                                        onChanged: (val) {
-                                          state(() {
-                                            q4 = val;
-                                          });
-                                        },
-                                      ),
-                                      Flexible(
-                                        child: Text(
-                                          'Don\'t know',
+                                    Row(
+                                      children: [
+                                        Radio(
+                                          value: 0,
+                                          groupValue: q1,
+                                          onChanged: (val) {
+                                            state(() {
+                                              q1 = val;
+                                            });
+                                          },
                                         ),
-                                      )
-                                    ],
-                                  ),
-                                  ListTile(
-                                    title: Text(
-                                      " Would you visit this place at night?",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w600),
+                                        Flexible(
+                                          child: Text('Very Good'),
+                                        ),
+                                        Radio(
+                                          value: 1,
+                                          groupValue: q1,
+                                          onChanged: (val) {
+                                            state(() {
+                                              q1 = val;
+                                            });
+                                          },
+                                        ),
+                                        Flexible(
+                                          child: Text('Good'),
+                                        ),
+                                        Radio(
+                                          value: 2,
+                                          groupValue: q1,
+                                          onChanged: (val) {
+                                            state(() {
+                                              q1 = val;
+                                            });
+                                          },
+                                        ),
+                                        Flexible(
+                                          child: Text('Okay'),
+                                        ),
+                                        Radio(
+                                          value: 3,
+                                          groupValue: q1,
+                                          onChanged: (val) {
+                                            state(() {
+                                              q1 = val;
+                                            });
+                                          },
+                                        ),
+                                        Flexible(
+                                          child: Text('Bad'),
+                                        )
+                                      ],
                                     ),
-                                  ),
-                                  Row(
-                                    children: [
-                                      Radio(
-                                        value: 0,
-                                        groupValue: q5,
-                                        onChanged: (val) {
-                                          state(() {
-                                            q5 = val;
-                                          });
-                                        },
+                                    ListTile(
+                                      title: Text(
+                                        "How crowded is the place normally?",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w600),
                                       ),
-                                      Flexible(child: Text('Yes')),
-                                      Radio(
-                                        value: 1,
-                                        groupValue: q5,
-                                        onChanged: (val) {
-                                          state(() {
-                                            q5 = val;
-                                          });
-                                        },
-                                      ),
-                                      Flexible(child: Text('No')),
-                                      Radio(
-                                        value: 2,
-                                        groupValue: q5,
-                                        onChanged: (val) {
-                                          state(() {
-                                            q5 = val;
-                                          });
-                                        },
-                                      ),
-                                      Flexible(child: Text('Don\'t know')),
-                                    ],
-                                  ),
-                                  ListTile(
-                                    title: Text(
-                                      "Do you consider this place safe for women?",
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.w600),
                                     ),
-                                  ),
-                                  Row(
-                                    children: [
-                                      Radio(
-                                        value: 0,
-                                        groupValue: q6,
-                                        onChanged: (val) {
-                                          state(() {
-                                            q6 = val;
-                                          });
-                                        },
+                                    Row(
+                                      children: [
+                                        Radio(
+                                          value: 0,
+                                          groupValue: q2,
+                                          onChanged: (val) {
+                                            state(() {
+                                              q2 = val;
+                                            });
+                                          },
+                                        ),
+                                        Flexible(child: Text('Crowded')),
+                                        Radio(
+                                          value: 1,
+                                          groupValue: q2,
+                                          onChanged: (val) {
+                                            state(() {
+                                              q2 = val;
+                                            });
+                                          },
+                                        ),
+                                        Flexible(child: Text('Normal')),
+                                        Radio(
+                                          value: 2,
+                                          groupValue: q2,
+                                          onChanged: (val) {
+                                            state(() {
+                                              q2 = val;
+                                            });
+                                          },
+                                        ),
+                                        Flexible(
+                                          child: Text('Deserted'),
+                                        ),
+                                      ],
+                                    ),
+                                    ListTile(
+                                      title: Text(
+                                        "Can you take alternative routes that are well lit?",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w600),
                                       ),
-                                      Flexible(child: Text('Yes')),
-                                      Radio(
-                                        value: 1,
-                                        groupValue: q6,
-                                        onChanged: (val) {
-                                          state(() {
-                                            q6 = val;
-                                          });
-                                        },
+                                    ),
+                                    Row(
+                                      children: [
+                                        Radio(
+                                          value: 0,
+                                          groupValue: q3,
+                                          onChanged: (val) {
+                                            state(() {
+                                              q3 = val;
+                                            });
+                                          },
+                                        ),
+                                        Flexible(
+                                          child: Text('Yes'),
+                                        ),
+                                        Radio(
+                                          value: 1,
+                                          groupValue: q3,
+                                          onChanged: (val) {
+                                            state(() {
+                                              q3 = val;
+                                            });
+                                          },
+                                        ),
+                                        Flexible(child: Text('No')),
+                                        Radio(
+                                          value: 2,
+                                          groupValue: q3,
+                                          onChanged: (val) {
+                                            state(() {
+                                              q3 = val;
+                                            });
+                                          },
+                                        ),
+                                        Flexible(
+                                          child: Text('Don\'t know'),
+                                        )
+                                      ],
+                                    ),
+                                    ListTile(
+                                      title: Text(
+                                        " How close is the nearest police station?",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w600),
                                       ),
-                                      Flexible(child: Text('No')),
-                                      Radio(
-                                        value: 2,
-                                        groupValue: q6,
-                                        onChanged: (val) {
-                                          state(() {
-                                            q6 = val;
-                                          });
-                                        },
+                                    ),
+                                    Row(
+                                      children: [
+                                        Radio(
+                                          value: 0,
+                                          groupValue: q4,
+                                          onChanged: (val) {
+                                            state(() {
+                                              q4 = val;
+                                            });
+                                          },
+                                        ),
+                                        Flexible(child: Text('< 1km')),
+                                        Radio(
+                                          value: 1,
+                                          groupValue: q4,
+                                          onChanged: (val) {
+                                            state(() {
+                                              q4 = val;
+                                            });
+                                          },
+                                        ),
+                                        Flexible(child: Text('1-5 km')),
+                                        Radio(
+                                          value: 2,
+                                          groupValue: q4,
+                                          onChanged: (val) {
+                                            state(() {
+                                              q4 = val;
+                                            });
+                                          },
+                                        ),
+                                        Flexible(child: Text('5+ km')),
+                                        Radio(
+                                          value: 3,
+                                          groupValue: q4,
+                                          onChanged: (val) {
+                                            state(() {
+                                              q4 = val;
+                                            });
+                                          },
+                                        ),
+                                        Flexible(
+                                          child: Text(
+                                            'Don\'t know',
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    ListTile(
+                                      title: Text(
+                                        " Would you visit this place at night?",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w600),
                                       ),
-                                      Flexible(child: Text('Don\'t know')),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Radio(
+                                          value: 0,
+                                          groupValue: q5,
+                                          onChanged: (val) {
+                                            state(() {
+                                              q5 = val;
+                                            });
+                                          },
+                                        ),
+                                        Flexible(child: Text('Yes')),
+                                        Radio(
+                                          value: 1,
+                                          groupValue: q5,
+                                          onChanged: (val) {
+                                            state(() {
+                                              q5 = val;
+                                            });
+                                          },
+                                        ),
+                                        Flexible(child: Text('No')),
+                                        Radio(
+                                          value: 2,
+                                          groupValue: q5,
+                                          onChanged: (val) {
+                                            state(() {
+                                              q5 = val;
+                                            });
+                                          },
+                                        ),
+                                        Flexible(child: Text('Don\'t know')),
+                                      ],
+                                    ),
+                                    ListTile(
+                                      title: Text(
+                                        "Do you consider this place safe for women?",
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                    ),
+                                    Row(
+                                      children: [
+                                        Radio(
+                                          value: 0,
+                                          groupValue: q6,
+                                          onChanged: (val) {
+                                            state(() {
+                                              q6 = val;
+                                            });
+                                          },
+                                        ),
+                                        Flexible(child: Text('Yes')),
+                                        Radio(
+                                          value: 1,
+                                          groupValue: q6,
+                                          onChanged: (val) {
+                                            state(() {
+                                              q6 = val;
+                                            });
+                                          },
+                                        ),
+                                        Flexible(child: Text('No')),
+                                        Radio(
+                                          value: 2,
+                                          groupValue: q6,
+                                          onChanged: (val) {
+                                            state(() {
+                                              q6 = val;
+                                            });
+                                          },
+                                        ),
+                                        Flexible(child: Text('Don\'t know')),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          isValid
-                              ? SizedBox()
-                              : Padding(
-                                  padding: const EdgeInsets.all(16.0),
-                                  child: Text(
-                                    'Please fill all answers!',
-                                    style: TextStyle(
-                                        fontSize: 16, color: Colors.red),
-                                  ),
-                                ),
-                          ButtonTheme(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: Container(
-                                // width: double.infinity,
-                                child: RaisedButton(
-                                  color: Color(0xffdf1d38),
-                                  child: Text(
-                                    "Submit",
-                                    style: TextStyle(
-                                      color: Colors.white,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            isValid
+                                ? SizedBox()
+                                : Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Text(
+                                      'Please fill all answers!',
+                                      style: TextStyle(
+                                          fontSize: 16, color: Colors.red),
                                     ),
+                                  ),
+                            ButtonTheme(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Container(
+                                  // width: double.infinity,
+                                  child: RaisedButton(
+                                    color: Color(0xffdf1d38),
+                                    child: Text(
+                                      "Submit",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    onPressed: () {
+                                      if (q1 == -1 ||
+                                          q2 == -1 ||
+                                          q3 == -1 ||
+                                          q4 == -1 ||
+                                          q5 == -1 ||
+                                          q6 == -1) {
+                                        state(() {
+                                          isValid = false;
+                                        });
+                                      }
+                                      if (isValid) {
+                                        calcAndSubmitScore();
+                                      }
+                                    },
                                   ),
                                   onPressed: () {
                                     isValid = true;
@@ -497,10 +514,10 @@ class MapSampleState extends State<ReviewsMap> {
                                 ),
                               ),
                             ),
-                          ),
-                        ],
-                      ) // Add TextFormFields and ElevatedButton here.
-                    ],
+                          ],
+                        ) // Add TextFormFields and ElevatedButton here.
+                      ],
+                    ),
                   ),
                 ),
               );

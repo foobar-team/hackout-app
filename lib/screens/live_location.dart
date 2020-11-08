@@ -141,8 +141,8 @@ class MapSampleState extends State<LiveLocation> {
 
   void setSourceIcons() async {
     sourceIcon = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(devicePixelRatio: 2.5),
-        'assets/intro_one.png');
+        ImageConfiguration(devicePixelRatio: 2.5,),
+        'assets/images/marker.png');
 
 
   }
