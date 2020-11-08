@@ -9,6 +9,7 @@ import 'package:foobar/model/local_location.dart';
 import 'package:foobar/model/local_user.dart';
 import 'package:foobar/utils/user_constants.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter_heatmap/google_maps_flutter_heatmap.dart';
 
 class DatabaseMethods {
   FirebaseFirestore _database = FirebaseFirestore.instance;
@@ -30,9 +31,42 @@ class DatabaseMethods {
           "phone": phone,
           "city": city,
           "aadhar": aadhar,
+          "isSafe":true,
         },
       );
       print(email);
+    } on Exception catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  Future createReviewDocument({
+    String city,
+    int crowd,
+    int lighting,
+    String locality,
+    Map location,
+    int policeStation,
+    int safeForWomen,
+    int safeToVisit,
+    int altRoutes,
+    int score,
+  }) async {
+    try {
+      await _database.collection("reviews").add(
+        {
+          "city": city,
+          "lighting": lighting,
+          "locality": locality,
+          "location": location,
+          "policeStation": policeStation,
+          "safeForWomen": safeForWomen,
+          "safeToVisit": safeToVisit,
+          "altRoutes": altRoutes,
+          "score": score
+        },
+      );
     } on Exception catch (e) {
       print(e);
       return null;

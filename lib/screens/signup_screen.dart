@@ -125,7 +125,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         child: TextFormField(
           controller: phoneController,
           validator: (value) {
-            if (value.trim().isNotEmpty && value.length != 16) {
+            if (value.trim().isNotEmpty && value.length == 10) {
               return null;
             }
             return "Enter a 10 digit valid Phone No.";
@@ -161,7 +161,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         child: TextFormField(
           controller: aadharController,
           validator: (value) {
-            if (value.trim().isNotEmpty && value.length != 16) {
+            if (value.trim().isNotEmpty && value.length == 16) {
               return null;
             }
             return "Enter valid Aadhar No.";
@@ -225,47 +225,48 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     return Scaffold(
       key: _scaffoldKey,
-      body: Center(
-        child: Stack(children: [
+      body:  Stack(children: [
           IgnorePointer(
             ignoring: isLoading,
-            child: SingleChildScrollView(
-              child: Form(
-                key: _formKey,
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Text(
-                        "Sign Up",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.blueGrey,
-                            fontSize: 35),
-                      ),
-                      SizedBox(
-                        height: 50,
-                      ),
-                      nameField,
-                      emailField,
-                      phoneField,
-                      cityField,
-                      aadharField,
-                      passwordField,
-                      signUpButton,
-                      GestureDetector(
-                        child: Text(
-                          "Log In",
-                          style: TextStyle(color: Colors.blueGrey, fontSize: 20),
+            child: Center(
+              child: SingleChildScrollView(
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Text(
+                          "Sign Up",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Colors.blueGrey,
+                              fontSize: 35),
                         ),
-                        onTap: () {
-                          Navigator.pushReplacementNamed(
-                              context, SignInScreen.route);
-                        },
-                      )
-                    ],
-                  ),
+                        SizedBox(
+                          height: 50,
+                        ),
+                        nameField,
+                        emailField,
+                        phoneField,
+                        cityField,
+                        aadharField,
+                        passwordField,
+                        signUpButton,
+                        GestureDetector(
+                          child: Text(
+                            "Log In",
+                            style: TextStyle(color: Colors.blueGrey, fontSize: 20),
+                          ),
+                          onTap: () {
+                            Navigator.pushReplacementNamed(
+                                context, SignInScreen.route);
+                          },
+                        )
+                      ],
+                    ),
 
+                ),
               ),
             ),
           ),
@@ -275,7 +276,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 )
               : Container()
         ]),
-      ),
+
     );
   }
 }

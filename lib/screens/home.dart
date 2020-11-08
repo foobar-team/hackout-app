@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foobar/screens/add_trusted_contacts_screen.dart';
 import 'package:foobar/screens/all_notifications.dart';
 import 'package:foobar/screens/dependent_people_screen.dart';
 import 'package:foobar/screens/live_location.dart';
@@ -25,6 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
     AllNotificationsScreen(),
     ReviewsMap(),
     DependentPeopleScreen(),
+    AddTrustedContactsScreen(),
   ];
 
 
@@ -118,6 +120,10 @@ class _HomeScreenState extends State<HomeScreen> {
             BottomNavigationBarItem(
               icon: Icon(Icons.location_history),
               label: 'Live',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.contact_mail_rounded),
+              label: 'Contacts',
             ),
           ],
           currentIndex: _selectedIndex,
