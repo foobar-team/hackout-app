@@ -241,6 +241,7 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
       isLoading = false;
 
     });
+    bg.BackgroundGeolocation.stop();
   }
 
   alertButtonOnPress() async {

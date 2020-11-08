@@ -31,7 +31,7 @@ class DatabaseMethods {
           "phone": phone,
           "city": city,
           "aadhar": aadhar,
-          "isSafe":true,
+          "isSafe": true,
         },
       );
       print(email);
@@ -120,12 +120,15 @@ class DatabaseMethods {
     final HttpsCallable callable = FirebaseFunctions.instance.httpsCallable(
       'sendDangerAlert',
     );
-    await _database.collection("users").doc(CONSTANT_UID).update({"isSafe":false});
     await callable.call(<String, dynamic>{
       'latitude': userLocation.latitude,
       'longitude': userLocation.longitude,
       'uid': CONSTANT_UID
     });
+    await _database
+        .collection("users")
+        .doc(CONSTANT_UID)
+        .update({"isSafe": false});
   }
 
   Future _triggerSafeCloudFunction() async {
@@ -136,6 +139,10 @@ class DatabaseMethods {
       'sendSafeAlert',
     );
     await callable.call(<String, dynamic>{'uid': CONSTANT_UID});
+    await _database
+        .collection("users")
+        .doc(CONSTANT_UID)
+        .update({"isSafe": true});
   }
 
   Future sendDangerAlert() async {
@@ -212,14 +219,16 @@ class DatabaseMethods {
   }
 
   Stream<List<LocalUser>> getPeopleWhoTrustMe() {
-    Stream<List<LocalUser>> stream =  _database
+    Stream<List<LocalUser>> stream = _database
         .collection("users")
         .where("trustedContacts", arrayContains: CONSTANT_UID)
         .snapshots()
         .map((event) => event.docs
             .map((e) => firebaseUserToLocalUser(snapshot: e))
             .toList());
-    stream.listen((event) {print(event.toString()+"hell");});
+    stream.listen((event) {
+      print(event.toString() + "hell");
+    });
     return stream;
   }
 
