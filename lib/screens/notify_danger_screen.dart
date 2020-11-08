@@ -33,7 +33,7 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
       "content":
           "If You have key then hold your key ring in a tight fist, like holding a hammer, with keys extending from the side of your hand. Thrust downward toward your target."
     },
-    {"title": "sdfsd", "content": "sadad"},
+    {"title": "What if someone is following you and it's night time?", "content": "Don't run as you could get yourself in a big trap with the stalker and if you really feel scared, stop at a well-lit public place, such as a restaurant or hotel. Call the police or family and friends and ask them to escort you to your home, or stay with them (either police or family and friends) for a while."},
     {"title": "", "content": ""},
     {"title": "", "content": ""},
     {"title": "", "content": ""},
