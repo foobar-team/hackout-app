@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.flutter.foobar">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.foobar.helpfem">
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
@@ -10,10 +11,16 @@
          FlutterApplication and put your custom class here. -->
 
     <application
+        tools:replace="android:label"
         android:name="io.flutter.app.FlutterApplication"
         android:label="foobar"
         android:icon="@mipmap/ic_launcher">
+
         <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyA8iknAxcM2PDfHEh7Z0hV42Pmcq8MnA7w"/>
+
+        <service android:name="com.transistorsoft.locationmanager.service.TrackingService" android:foregroundServiceType="location" />
+        <service android:name="com.transistorsoft.locationmanager.service.LocationRequestService" android:foregroundServiceType="location" />
+
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

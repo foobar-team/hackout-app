@@ -11,6 +11,7 @@ import 'home.dart';
 
 class SignInScreen extends StatefulWidget {
   static String route = "signin_screen_route";
+
   @override
   _SignInScreenState createState() => _SignInScreenState();
 }
@@ -35,17 +36,15 @@ class _SignInScreenState extends State<SignInScreen> {
             emailController.text, passwordController.text);
         if (user != null) {
           SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
+              await SharedPreferences.getInstance();
           sharedPreferences.setString("uid", user.uid);
           CONSTANT_UID = user.uid;
           await _databaseMethods.updateUserFcmToken(uid: user.uid);
           Navigator.pushReplacementNamed(context, HomeScreen.route);
         } else {
-
           _scaffoldKey.currentState.showSnackBar(SnackBar(
             content: Text("Something went wrong or Invalid Credentials"),
           ));
-
         }
         setState(() {
           isLoading = false;
@@ -62,19 +61,13 @@ class _SignInScreenState extends State<SignInScreen> {
       ));
     }
   }
+
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    final availableHeight = MediaQuery
-        .of(context)
-        .size
-        .height -
-        MediaQuery
-            .of(context)
-            .padding
-            .vertical;
-
+    final availableHeight = MediaQuery.of(context).size.height -
+        MediaQuery.of(context).padding.vertical;
 
     final emailField = Padding(
         padding: EdgeInsets.all(8),
@@ -87,16 +80,14 @@ class _SignInScreenState extends State<SignInScreen> {
             return "Enter valid Email";
           },
           decoration: InputDecoration(
-
               prefixIcon: Icon(Icons.email),
               hintText: "Email",
               border:
-              OutlineInputBorder(borderRadius: BorderRadius.circular(5)),
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(5)),
               contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 8)),
         ));
 
     final passwordField = Padding(
-
       padding: EdgeInsets.all(8),
       child: TextFormField(
         validator: (value) {
@@ -133,11 +124,11 @@ class _SignInScreenState extends State<SignInScreen> {
               ),
               onPressed: () async {
                 // if (_formKey.currentState.validate()) {
-                  try {
-                    signIn();
-                  } catch (e) {
-                    print(e.toString() + "ASDasdasda");
-                  }
+                try {
+                  signIn();
+                } catch (e) {
+                  print(e.toString() + "ASDasdasda");
+                }
                 // }
               },
             )),
@@ -146,64 +137,80 @@ class _SignInScreenState extends State<SignInScreen> {
 
     return Scaffold(
       key: _scaffoldKey,
-      body: Stack(
-        children: [IgnorePointer(
+      body: Stack(children: [
+        IgnorePointer(
           ignoring: isLoading,
-          child: Form(
-            key: _formKey,
-            child: Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                   Text("Sign In",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.blueGrey,fontSize: 35),),
-                  SizedBox(height: 50,),
-                  emailField,
-                  passwordField,
-                  signInButton,
-                  GestureDetector(
-                    child: Text("Register",style: TextStyle(color: Colors.blueGrey,fontSize: 20),),
-                    onTap: () {
-                      Navigator.pushReplacementNamed(context, SignUpScreen.route);
-                    },
-                  )
-                ],
+          child: Center(
+            child: SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Text(
+                      "Sign In",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blueGrey,
+                          fontSize: 35),
+                    ),
+                    SizedBox(
+                      height: 50,
+                    ),
+                    emailField,
+                    passwordField,
+                    signInButton,
+                    GestureDetector(
+                      child: Text(
+                        "Register",
+                        style: TextStyle(color: Colors.blueGrey, fontSize: 20),
+                      ),
+                      onTap: () {
+                        Navigator.pushReplacementNamed(
+                            context, SignUpScreen.route);
+                      },
+                    )
+                  ],
+                ),
               ),
             ),
           ),
-        ),isLoading ? Center(child: CircularProgressIndicator()) : Container()]
-      ),
+        ),
+        isLoading ? Center(child: CircularProgressIndicator()) : Container()
+      ]),
     );
-  }}
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     key: _scaffoldKey,
-  //     body: Center(
-  //       child: Column(
-  //         mainAxisSize: MainAxisSize.min,
-  //         children: [
-  //           TextField(
-  //             controller: emailController,
-  //             decoration: InputDecoration(hintText: "Email"),
-  //           ),
-  //           TextField(
-  //             controller: passwordController,
-  //             decoration: InputDecoration(hintText: "Password"),
-  //           ),
-  //           RaisedButton(
-  //             onPressed: signIn,
-  //             child: Text("Sign In"),
-  //           ),
-  //           GestureDetector(
-  //             child: Text("Sign Up"),
-  //             onTap: () {
-  //               Navigator.pushReplacementNamed(context, SignUpScreen.route);
-  //             },
-  //           )
-  //         ],
-  //       ),
-  //     ),
-  //   );
-  // }
+  }
+}
+// @override
+// Widget build(BuildContext context) {
+//   return Scaffold(
+//     key: _scaffoldKey,
+//     body: Center(
+//       child: Column(
+//         mainAxisSize: MainAxisSize.min,
+//         children: [
+//           TextField(
+//             controller: emailController,
+//             decoration: InputDecoration(hintText: "Email"),
+//           ),
+//           TextField(
+//             controller: passwordController,
+//             decoration: InputDecoration(hintText: "Password"),
+//           ),
+//           RaisedButton(
+//             onPressed: signIn,
+//             child: Text("Sign In"),
+//           ),
+//           GestureDetector(
+//             child: Text("Sign Up"),
+//             onTap: () {
+//               Navigator.pushReplacementNamed(context, SignUpScreen.route);
+//             },
+//           )
+//         ],
+//       ),
+//     ),
+//   );
+// }
 // }

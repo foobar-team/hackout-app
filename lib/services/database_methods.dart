@@ -2,7 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_background_geolocation/flutter_background_geolocation.dart'
+    as bg;
 import 'package:foobar/model/danger_notification.dart';
+import 'package:foobar/model/local_location.dart';
+import 'package:foobar/model/local_user.dart';
 import 'package:foobar/utils/user_constants.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -66,7 +70,7 @@ class DatabaseMethods {
   Future getUserInfo() async {
     try {
       print("userid: ");
-      print(CONSTANT_UID);
+      // print(CONSTANT_UID);
       String uid = CONSTANT_UID;
       return await _database.collection("users").doc(uid).get();
     } on Exception catch (e) {
@@ -82,6 +86,7 @@ class DatabaseMethods {
     final HttpsCallable callable = FirebaseFunctions.instance.httpsCallable(
       'sendDangerAlert',
     );
+    await _database.collection("users").doc(CONSTANT_UID).update({"isSafe":false});
     await callable.call(<String, dynamic>{
       'latitude': userLocation.latitude,
       'longitude': userLocation.longitude,
@@ -142,5 +147,62 @@ class DatabaseMethods {
             time: e.data()["time"]);
       }).toList();
     });
+  }
+
+  Future<bool> isMobileNumberRegistered({String phone}) async {
+    QuerySnapshot querySnapshot = await _database
+        .collection("users")
+        .where("phone", isEqualTo: phone)
+        .get();
+    if (querySnapshot.docs.length > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future<bool> addTrustedContact({String mobileNumber}) async {
+    QuerySnapshot querySnapshot = await _database
+        .collection("users")
+        .where("phone", isEqualTo: mobileNumber)
+        .get();
+    if (querySnapshot.docs.length > 0) {
+      await _database.collection("users").doc(CONSTANT_UID).update({
+        "trustedContacts":
+            FieldValue.arrayUnion([querySnapshot.docs[0].data()["uid"]])
+      });
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Stream<List<LocalUser>> getPeopleWhoTrustMe() {
+    Stream<List<LocalUser>> stream =  _database
+        .collection("users")
+        .where("trustedContacts", arrayContains: CONSTANT_UID)
+        .snapshots()
+        .map((event) => event.docs
+            .map((e) => firebaseUserToLocalUser(snapshot: e))
+            .toList());
+    stream.listen((event) {print(event.toString()+"hell");});
+    return stream;
+  }
+
+  LocalUser firebaseUserToLocalUser({QueryDocumentSnapshot snapshot}) {
+    return LocalUser(
+        name: snapshot["name"],
+        adhaar: snapshot["aadhar"],
+        city: snapshot["city"],
+        isSafe: snapshot["isSafe"],
+        phone: snapshot["phone"],
+        uid: snapshot["uid"]);
+  }
+
+  Stream<LocalLocation> getUserLiveLocation({String uid}) {
+    return _database.collection("liveLocations").doc(uid).snapshots().map(
+        (event) => LocalLocation(
+            latitude: event.data()["location"]["coords"]["latitude"],
+            longitude: event.data()["location"]["coords"]["longitude"]));
   }
 }

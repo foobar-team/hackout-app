@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:foobar/screens/all_notifications.dart';
+import 'package:foobar/screens/dependent_people_screen.dart';
 import 'package:foobar/screens/live_location.dart';
 import 'package:foobar/screens/notify_danger_screen.dart';
+import 'package:foobar/screens/review_map.dart';
 import 'package:foobar/screens/signin_screen.dart';
-import 'package:foobar/screens/reviews_map.dart';
 import 'package:foobar/services/auth_methods.dart';
 import 'package:foobar/services/database_methods.dart';
 import 'package:foobar/utils/methods.dart';
@@ -11,6 +12,7 @@ import 'package:geolocator/geolocator.dart';
 
 class HomeScreen extends StatefulWidget {
   static String route = "home_route";
+  static GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -22,8 +24,10 @@ class _HomeScreenState extends State<HomeScreen> {
     NotifyDangerScreen(),
     AllNotificationsScreen(),
     ReviewsMap(),
-    LiveLocation(),
+    DependentPeopleScreen(),
   ];
+
+
 
   void _onItemTapped(int index) {
     setState(() {
@@ -70,6 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
     Geolocator.requestPermission();
     updateUserLocation(_authMethods.getCurrentUser().uid);
     return Scaffold(
+      key: HomeScreen.scaffoldKey,
         backgroundColor: Colors.white,
         appBar: AppBar(
           backgroundColor: Colors.white,
