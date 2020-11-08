@@ -33,11 +33,26 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
       "content":
           "If You have key then hold your key ring in a tight fist, like holding a hammer, with keys extending from the side of your hand. Thrust downward toward your target."
     },
-    {"title": "What if someone is following you and it's night time?", "content": "Don't run as you could get yourself in a big trap with the stalker and if you really feel scared, stop at a well-lit public place, such as a restaurant or hotel. Call the police or family and friends and ask them to escort you to your home, or stay with them (either police or family and friends) for a while."},
-    {"title": "", "content": ""},
-    {"title": "", "content": ""},
-    {"title": "", "content": ""},
-    {"title": "", "content": ""}
+    {
+      "title": "What if someone is following you and it's night time?",
+      "content":
+          "Don't run as you could get yourself in a big trap with the stalker and if you really feel scared, stop at a well-lit public place, such as a restaurant or hotel. Call the police or family and friends and ask them to escort you to your home, or stay with them (either police or family and friends) for a while."
+    },
+    {
+      "title": "Where to go Now?",
+      "content":
+          "Don't go straight home. This will show the person where you live and is especially dangerous if you live alone. Try to go to a neighbor's house, a friend's house or another family member's house, where you know there will be other people to answer the door and take care of you or go to the police station if possible."
+    },
+    {
+      "title": "What if someone try to attack you?",
+      "content":
+          "Protect your groin, throat, stomach, and eyes with your hands and arms. These are the most vulnerable parts of your body. So, block your attacker’s blows with your hands and upper arms and try to deflect any punches or slaps."
+    },
+    {
+      "title": "How to deal with potential attackers?",
+      "content":
+          "Project confidence and awareness so that you’re not an easy target because they try to prey on easy targets: people who aren’t very aware of their environment and who can be ambushed easily. Avoid making eye contact with anyone who you feel may be following you, but be aware of your surroundings."
+    }
   ];
 
   @override
@@ -120,7 +135,7 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
                   return Builder(
                     builder: (BuildContext context) {
                       return Container(
-                        alignment: Alignment.center,
+                          alignment: Alignment.center,
                           width: MediaQuery.of(context).size.width,
                           margin: EdgeInsets.symmetric(horizontal: 5.0),
                           decoration: BoxDecoration(
@@ -134,11 +149,14 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Padding(padding: EdgeInsets.only(bottom: 30.0) , child:Text(
-                                    selfdefense[i - 1]["title"],
-                                    style: TextStyle(fontSize: 16.0),
-                                    textAlign: TextAlign.center,
-                                  )),
+                                  Padding(
+                                      padding: EdgeInsets.only(bottom: 30.0),
+                                      child: Text(
+                                        selfdefense[i - 1]["title"],
+                                        style: TextStyle(fontSize: 16.0,fontWeight: FontWeight.bold),
+                                        textAlign: TextAlign.center,
+                                        
+                                      )),
                                   Text(
                                     selfdefense[i - 1]["content"],
                                     style: TextStyle(fontSize: 16.0),
@@ -239,7 +257,6 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
     setState(() {
       alertSent = false;
       isLoading = false;
-
     });
     bg.BackgroundGeolocation.stop();
   }
