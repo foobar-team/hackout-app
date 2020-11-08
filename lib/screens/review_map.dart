@@ -1,7 +1,12 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:foobar/services/database_methods.dart';
 import 'package:geolocator/geolocator.dart';
 import 'dart:async';
 import 'package:google_maps_flutter_heatmap/google_maps_flutter_heatmap.dart';
+import 'package:google_maps_webservice/places.dart';
+
+const APIKEY = "AIzaSyA8iknAxcM2PDfHEh7Z0hV42Pmcq8MnA7w";
 
 class ReviewsMap extends StatefulWidget {
   static String route = "reviews_map";
@@ -13,12 +18,8 @@ class ReviewsMap extends StatefulWidget {
 class MapSampleState extends State<ReviewsMap> {
   Completer<GoogleMapController> _controller = Completer();
   final Set<Heatmap> _heatmaps = {};
-  static final CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
-    zoom: 14.4746,
-  );
 
-  final Set<Marker> _markers = {
+  Set<Marker> _markers = {
     Marker(
       markerId: MarkerId('value'),
       position: LatLng(28.632893, 437.219491),
@@ -26,21 +27,35 @@ class MapSampleState extends State<ReviewsMap> {
   };
 
   final _searchFieldController = TextEditingController();
-  // DatabaseMethods _databaseMethods = DatabaseMethods();
+  DatabaseMethods _databaseMethods = DatabaseMethods();
   final _formKey = GlobalKey<FormState>();
 
   Future<dynamic> _getCurrentLocation() async {
+    var user = await _databaseMethods.getUserInfo();
+    print(user.data()['location']);
+    print("AAAAAA");
+    var lat = user.data()['location']['latitude'];
+    var lon = user.data()['location']['longitude'];
+    LatLng loc = LatLng(lat, lon);
     CameraPosition _currentLocation = CameraPosition(
-      target: LatLng(28.632893, 437.219491),
-      zoom: 14.4746,
+      target: loc,
+      zoom: 17.4746,
     );
+    setState(() {
+      _markers = {
+        Marker(
+          markerId: MarkerId('value'),
+          position: loc,
+        ),
+      };
+    });
     return _currentLocation;
   }
 
+  final places = GoogleMapsPlaces(apiKey: APIKEY);
   LatLng _heatmapLocation = LatLng(37.42796133580664, -122.085749655962);
-
+  List<String> _searchPlaces = [];
   void showReviewForm() {
-    print(_markers.first.position);
     showModalBottomSheet<dynamic>(
         context: context,
         isScrollControlled: true,
@@ -106,6 +121,37 @@ class MapSampleState extends State<ReviewsMap> {
         });
   }
 
+  void getLocationResult(String text) async {
+    if (text.isEmpty) {
+      setState(() {
+        _searchPlaces = [];
+      });
+      return;
+    }
+    // String requestURL =
+    //     "https://maps.googleapis.com/maps/api/place/autocomplete/json";
+    // String request = '$requestURL?input=$text&key=$APIKEY';
+    // Response response = await Dio().get(request);
+    // final searchResults = response.data['predictions'];
+    List<String> _results = [];
+    // for (var i = 0; i < searchResults.length; i++) {
+    //   String name = searchResults[i]['description'];
+    //   _results.add(name);
+    // }
+
+    var res = await places.autocomplete(text);
+    for (var p in res.predictions) {
+      print('- ${p.description}');
+      String name = p.description;
+      _results.add(name);
+    }
+
+    setState(() {
+      _searchPlaces = _results;
+      _searchPlaces = ['Alam Bagh', 'Chand Bawari'];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
@@ -133,20 +179,38 @@ class MapSampleState extends State<ReviewsMap> {
                         borderRadius: BorderRadius.circular(10),
                         color: Colors.white,
                       ),
-                      child: Expanded(
-                        child: TextField(
-                          controller: _searchFieldController,
-                          onTap: () async {
-                            print(_searchFieldController.text);
-                          },
-                          cursorColor: Colors.black,
-                          keyboardType: TextInputType.text,
-                          decoration: InputDecoration(
-                              border: InputBorder.none,
-                              contentPadding:
-                                  EdgeInsets.symmetric(horizontal: 15),
-                              hintText: "Search..."),
-                        ),
+                      child: Column(
+                        children: [
+                          TextField(
+                            controller: _searchFieldController,
+                            onTap: () async {
+                              print(_searchFieldController.text);
+                            },
+                            onChanged: (text) {
+                              getLocationResult(text);
+                            },
+                            cursorColor: Colors.black,
+                            keyboardType: TextInputType.text,
+                            decoration: InputDecoration(
+                                border: InputBorder.none,
+                                contentPadding:
+                                    EdgeInsets.symmetric(horizontal: 15),
+                                hintText: "Search..."),
+                          ),
+                          ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: _searchPlaces.length,
+                            itemBuilder: (context, index) {
+                              return ListTile(
+                                title: Text(_searchPlaces[index]),
+                                onTap: () {
+                                  print(_searchPlaces[index]);
+                                },
+                              );
+                            },
+                          ),
+                        ],
                       ),
                     ),
                   ),

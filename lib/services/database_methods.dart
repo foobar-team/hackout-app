@@ -67,7 +67,7 @@ class DatabaseMethods {
   Future getUserInfo() async {
     try {
       print("userid: ");
-      print(CONSTANT_UID);
+      // print(CONSTANT_UID);
       String uid = CONSTANT_UID;
       return await _database.collection("users").doc(uid).get();
     } on Exception catch (e) {
