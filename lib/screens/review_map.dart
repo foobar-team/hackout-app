@@ -53,8 +53,8 @@ class MapSampleState extends State<ReviewsMap> {
 
   final List<Map> dummyPlaces = [
     {"city": "Bhopal", "latitude": 23.2599, "longitude": 77.4126},
-    {"city": "Jhansi", "latitude": 1.1, "longitude": 2.1},
-    {"city": "Delhi", "latitude": 1.1, "longitude": 2.1}
+    {"city": "Jhansi", "latitude": 25.4484, "longitude": 78.5685},
+    {"city": "Delhi", "latitude": 28.7041, "longitude": 77.1025}
   ];
 
   Map reviewLoc = {"latitude": 1, "longitude": 1};
@@ -488,29 +488,13 @@ class MapSampleState extends State<ReviewsMap> {
                                       }
                                       if (isValid) {
                                         calcAndSubmitScore();
+                                        Navigator.pop(context);
+                                        state((){
+                                        q1=q2=q3=q4=q5=q6=-1;
+                                      });
                                       }
                                     },
                                   ),
-                                  onPressed: () {
-                                    isValid = true;
-                                    if (q1 == -1 ||
-                                        q2 == -1 ||
-                                        q3 == -1 ||
-                                        q4 == -1 ||
-                                        q5 == -1 ||
-                                        q6 == -1) {
-                                      state(() {
-                                        isValid = false;
-                                      });
-                                    }
-                                    if (isValid) {
-                                      calcAndSubmitScore();
-                                      Navigator.pop(context);
-                                      state((){
-                                        q1=q2=q3=q4=q5=q6=-1;
-                                      });
-                                    }
-                                  },
                                 ),
                               ),
                             ),
@@ -596,7 +580,7 @@ class MapSampleState extends State<ReviewsMap> {
                               print(_searchFieldController.text);
                             },
                             onChanged: (text) {
-                              print(_searchFieldController.text);
+                              
                               getLocationResult(text);
                             },
                             cursorColor: Colors.black,
@@ -618,23 +602,26 @@ class MapSampleState extends State<ReviewsMap> {
                                   var latitude = _searchPlaces[index]["latitude"];
                                   var longitude =  _searchPlaces[index]["longitude"];
                                   CameraPosition cPosition = CameraPosition(
-                                      zoom: 14.5,
+                                      zoom: 5.5,
                                       target: LatLng(latitude,
                                           longitude),
                                     );
                                     final GoogleMapController controller = await _controller.future;
                                     controller.animateCamera(CameraUpdate.newCameraPosition(cPosition));
-                                  print(_searchPlaces[index]);
+                                  
                                   setState((){
                                     _searchPlaces = [];
-                                    _markers = {
-                                      Marker(
-                                       markerId: MarkerId('value'),
+                                    _searchFieldController.text = "";
+                                    _markers.removeWhere(
+                                      (m) =>  m.markerId.value == 'value'
+                                    );
+                                    _markers.add(Marker(
+                                      markerId : MarkerId('value'),
                                        position: LatLng(latitude, longitude)
-                                       )
-                                       };
-                                      
+                                    ));
                                   });
+
+                                  print(_markers);
                                 },
                               );
                             },
