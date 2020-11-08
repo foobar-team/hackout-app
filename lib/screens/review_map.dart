@@ -29,13 +29,11 @@ class MapSampleState extends State<ReviewsMap> {
   final _formKey = GlobalKey<FormState>();
 
   Future<dynamic> _getCurrentLocation() async {
-    print('1');
     var user = await _databaseMethods.getUserInfo();
     var lat = user.data()['location']['latitude'];
     var lon = user.data()['location']['longitude'];
     LatLng loc = LatLng(lat, lon);
     _heatmapLocation = loc;
-
 
     CameraPosition _currentLocation = CameraPosition(
       target: loc,
@@ -58,7 +56,8 @@ class MapSampleState extends State<ReviewsMap> {
   Map reviewLoc = {"latitude": 1, "longitude": 1};
 
   final places = GoogleMapsPlaces(apiKey: APIKEY);
-  LatLng _heatmapLocation ;
+  LatLng _heatmapLocation;
+
   List<Map> _searchPlaces = [];
 
   int q1, q2, q3, q4, q5, q6, q7, q8;
@@ -566,8 +565,6 @@ class MapSampleState extends State<ReviewsMap> {
         future: _getCurrentLocation(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-
-
             return Scaffold(
               body: Stack(
                 children: [
@@ -578,17 +575,14 @@ class MapSampleState extends State<ReviewsMap> {
                     markers: _markers,
                     onMapCreated: (GoogleMapController controller) {
                       setState(() {
-                        _heatmaps.add(
-                            Heatmap(
-                                heatmapId: HeatmapId(_heatmapLocation.toString()),
-                                points: _createPoints(_heatmapLocation),
-                                radius: 50,
-                                visible: true,
-                                gradient:  HeatmapGradient(
-                                    colors: <Color>[Colors.green, Colors.red], startPoints: <double>[0.2, 0.8]
-                                )
-                            )
-                        );
+                        _heatmaps.add(Heatmap(
+                            heatmapId: HeatmapId(_heatmapLocation.toString()),
+                            points: _createPoints(_heatmapLocation),
+                            radius: 50,
+                            visible: true,
+                            gradient: HeatmapGradient(
+                                colors: <Color>[Colors.green, Colors.red],
+                                startPoints: <double>[0.2, 0.8])));
                       });
                       _controller.complete(controller);
                     },
@@ -633,7 +627,7 @@ class MapSampleState extends State<ReviewsMap> {
                                   var longitude =
                                       _searchPlaces[index]["longitude"];
                                   CameraPosition cPosition = CameraPosition(
-                                    zoom: 5.5,
+                                    zoom: 15.5,
                                     target: LatLng(latitude, longitude),
                                   );
                                   final GoogleMapController controller =
@@ -675,8 +669,6 @@ class MapSampleState extends State<ReviewsMap> {
           }
         });
   }
-
-
 
   //heatmap generation helper functions
   List<WeightedLatLng> _createPoints(LatLng location) {
