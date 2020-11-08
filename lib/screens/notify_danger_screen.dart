@@ -10,10 +10,10 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 
 import 'package:holding_gesture/holding_gesture.dart';
 
-import 'package:flutter_background_geolocation/flutter_background_geolocation.dart' as bg;
+import 'package:flutter_background_geolocation/flutter_background_geolocation.dart'
+    as bg;
 
 import 'package:carousel_slider/carousel_slider.dart';
-
 
 class NotifyDangerScreen extends StatefulWidget {
   @override
@@ -27,12 +27,24 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
   AnimationController _controller;
   bool alertSent = false;
 
+  List<Map<String, String>> selfdefense = [
+    {
+      "title": "What you can do to attack?",
+      "content":
+          "If You have key then hold your key ring in a tight fist, like holding a hammer, with keys extending from the side of your hand. Thrust downward toward your target."
+    },
+    {"title": "sdfsd", "content": "sadad"},
+    {"title": "", "content": ""},
+    {"title": "", "content": ""},
+    {"title": "", "content": ""},
+    {"title": "", "content": ""}
+  ];
+
   @override
   void initState() {
     super.initState();
     this._controller = AnimationController(
       duration: const Duration(seconds: 5),
-
       vsync: this,
     )..addStatusListener((status) async {
         if (status == AnimationStatus.completed) {
@@ -66,7 +78,7 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
                 children: [
                   Padding(
                       padding: EdgeInsets.symmetric(
-                          vertical: 40.0, horizontal: 20.0),
+                          vertical: 20.0, horizontal: 10.0),
                       child: NeumorphicButton(
                         onPressed: () {
                           print('Pressed !');
@@ -78,7 +90,7 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
                       )),
                   Padding(
                       padding: EdgeInsets.symmetric(
-                          vertical: 40.0, horizontal: 20.0),
+                          vertical: 20.0, horizontal: 10.0),
                       child: NeumorphicButton(
                         onPressed: () {
                           print('Pressed !');
@@ -108,16 +120,32 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
                   return Builder(
                     builder: (BuildContext context) {
                       return Container(
+                        alignment: Alignment.center,
                           width: MediaQuery.of(context).size.width,
                           margin: EdgeInsets.symmetric(horizontal: 5.0),
                           decoration: BoxDecoration(
                               color: Colors.amber,
                               borderRadius:
                                   BorderRadius.all(Radius.circular(5.0))),
-                          child: Text(
-                            'text $i',
-                            style: TextStyle(fontSize: 16.0),
-                          ));
+                          child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 20.0, horizontal: 20.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Padding(padding: EdgeInsets.only(bottom: 30.0) , child:Text(
+                                    selfdefense[i - 1]["title"],
+                                    style: TextStyle(fontSize: 16.0),
+                                    textAlign: TextAlign.center,
+                                  )),
+                                  Text(
+                                    selfdefense[i - 1]["content"],
+                                    style: TextStyle(fontSize: 16.0),
+                                    textAlign: TextAlign.center,
+                                  )
+                                ],
+                              )));
                     },
                   );
                 }).toList(),
@@ -128,7 +156,7 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
                 children: [
                   Padding(
                       padding: EdgeInsets.symmetric(
-                          vertical: 40.0, horizontal: 20.0),
+                          vertical: 20.0, horizontal: 20.0),
                       child: NeumorphicButton(
                         onPressed: () {
                           print('Pressed !');
@@ -158,16 +186,16 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
       isLoading = false;
       showSentDialog();
     });
-    print((await bg.BackgroundGeolocation.getCurrentPosition()).toString()+"ahsdhashdhhell");
-    _initPlatformState(uid:CONSTANT_UID);
+    print((await bg.BackgroundGeolocation.getCurrentPosition()).toString() +
+        "ahsdhashdhhell");
+    _initPlatformState(uid: CONSTANT_UID);
   }
-  Future<Null> _initPlatformState({String uid}) async {
 
+  Future<Null> _initPlatformState({String uid}) async {
     BackgroundGeolocationFirebase.configure(BackgroundGeolocationFirebaseConfig(
         locationsCollection: "liveLocations/$uid",
         // geofencesCollection: "geofences",
-        updateSingleDocument: true
-    ));
+        updateSingleDocument: true));
     // Fired whenever the plugin changes motion-state (stationary->moving and vice-versa)
     bg.BackgroundGeolocation.onMotionChange((bg.Location location) {
       print('[motionchange] - $location');
@@ -182,7 +210,6 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
     });
 
     bg.BackgroundGeolocation.ready(bg.Config(
-
       desiredAccuracy: bg.Config.DESIRED_ACCURACY_HIGH,
       distanceFilter: 1.0,
       stopOnTerminate: false,
