@@ -617,7 +617,7 @@ class MapSampleState extends State<ReviewsMap> {
                                   var latitude = _searchPlaces[index]["latitude"];
                                   var longitude =  _searchPlaces[index]["longitude"];
                                   CameraPosition cPosition = CameraPosition(
-                                      zoom: 5.5,
+                                      zoom: 15.5,
                                       target: LatLng(latitude,
                                           longitude),
                                     );
