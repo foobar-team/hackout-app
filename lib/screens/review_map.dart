@@ -18,13 +18,10 @@ class ReviewsMap extends StatefulWidget {
 class MapSampleState extends State<ReviewsMap> {
   Completer<GoogleMapController> _controller = Completer();
   final Set<Heatmap> _heatmaps = {};
+  BitmapDescriptor sourceIcon;
 
-  Set<Marker> _markers = {
-    Marker(
-      markerId: MarkerId('value'),
-      position: LatLng(28.632893, 437.219491),
-    )
-  };
+
+  Set<Marker> _markers;
 
   final _searchFieldController = TextEditingController();
   DatabaseMethods _databaseMethods = DatabaseMethods();
@@ -45,6 +42,7 @@ class MapSampleState extends State<ReviewsMap> {
         Marker(
           markerId: MarkerId('value'),
           position: loc,
+          icon:sourceIcon
         ),
       };
     });
@@ -67,8 +65,25 @@ class MapSampleState extends State<ReviewsMap> {
 
   @override
   void initState() {
-    q1 = q2 = q3 = q4 = q5 = q6 = q7 = q8 = -1;
     super.initState();
+    q1 = q2 = q3 = q4 = q5 = q6 = q7 = q8 = -1;
+    setSourceIcons();
+    _markers = {
+    Marker(
+    markerId: MarkerId('value'),
+    position: LatLng(28.632893, 437.219491),
+    icon:sourceIcon,
+    )
+    };
+
+
+  }
+  void setSourceIcons() async {
+    sourceIcon = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(devicePixelRatio: 2.5,),
+        'assets/images/marker.png');
+
+
   }
 
   var isValid = true;
