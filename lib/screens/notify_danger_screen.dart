@@ -29,7 +29,7 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
   AnimationController _controller;
   bool alertSent = false;
 
-  List<Map<String, String>> selfdefense = [
+  List<Map<String, String>> selfDefense = [
     {
       "title": "What you can do to attack?",
       "content":
@@ -40,7 +40,6 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
       "content":
           "Don't run as you could get yourself in a big trap with the stalker and if you really feel scared, stop at a well-lit public place, such as a restaurant or hotel. Call the police or family and friends and ask them to escort you to your home, or stay with them (either police or family and friends) for a while."
     },
-<<<<<<< HEAD
     {
       "title": "Where to go Now?",
       "content":
@@ -56,12 +55,6 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
       "content":
           "Project confidence and awareness so that you’re not an easy target because they try to prey on easy targets: people who aren’t very aware of their environment and who can be ambushed easily. Avoid making eye contact with anyone who you feel may be following you, but be aware of your surroundings."
     }
-=======
-    {"title": "", "content": ""},
-    {"title": "", "content": ""},
-    {"title": "", "content": ""},
-    {"title": "", "content": ""}
->>>>>>> ebd564749975bfe9a2fa435906790ca0ccbf7d3a
   ];
 
   @override
@@ -161,13 +154,14 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
                                   Padding(
                                       padding: EdgeInsets.only(bottom: 30.0),
                                       child: Text(
-                                        selfdefense[i - 1]["title"],
-                                        style: TextStyle(fontSize: 16.0,fontWeight: FontWeight.bold),
+                                        selfDefense[i - 1]["title"],
+                                        style: TextStyle(
+                                            fontSize: 16.0,
+                                            fontWeight: FontWeight.bold),
                                         textAlign: TextAlign.center,
-                                        
                                       )),
                                   Text(
-                                    selfdefense[i - 1]["content"],
+                                    selfDefense[i - 1]["content"],
                                     style: TextStyle(fontSize: 16.0),
                                     textAlign: TextAlign.center,
                                   )
@@ -369,7 +363,7 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
                                                             EdgeInsets.only(
                                                                 bottom: 30.0),
                                                         child: Text(
-                                                          selfdefense[i - 1]
+                                                          selfDefense[i - 1]
                                                               ["title"],
                                                           style: TextStyle(
                                                               fontSize: 16.0),
@@ -377,7 +371,7 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
                                                               TextAlign.center,
                                                         )),
                                                     Text(
-                                                      selfdefense[i - 1]
+                                                      selfDefense[i - 1]
                                                           ["content"],
                                                       style: TextStyle(
                                                           fontSize: 16.0),
