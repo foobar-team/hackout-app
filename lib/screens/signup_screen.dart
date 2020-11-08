@@ -29,6 +29,39 @@ class _SignUpScreenState extends State<SignUpScreen> {
   AuthMethods _authMethods = AuthMethods();
   DatabaseMethods _databaseMethods = DatabaseMethods();
 
+  bool isValidPhoneNumber(String phoneNumber) {
+  final pattern = r'^[0-9]*$';
+  final regExp = RegExp(pattern);
+
+  if (phoneNumber == null || phoneNumber.isEmpty) {
+    return false;
+  }
+
+  if (!regExp.hasMatch(phoneNumber)) {
+    return false;
+  }
+  if(phoneNumber.length!=10){
+    return false;
+  }
+  return true;
+}
+bool isValidAadharNumber(String aadharNumber) {
+  final pattern = r'^[0-9]*$';
+  final regExp = RegExp(pattern);
+
+  if (aadharNumber == null || aadharNumber.isEmpty) {
+    return false;
+  }
+
+  if (!regExp.hasMatch(aadharNumber)) {
+    return false;
+  }
+  if(aadharNumber.length!=12){
+    return false;
+  }
+  return true;
+}
+
   void signUp() async {
     if (EmailValidator.validate(emailController.text) &&
         passwordController.text.trim().isNotEmpty) {
@@ -125,7 +158,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         child: TextFormField(
           controller: phoneController,
           validator: (value) {
-            if (value.trim().isNotEmpty && value.length == 10) {
+            if (isValidPhoneNumber(value)) {
               return null;
             }
             return "Enter a 10 digit valid Phone No.";
@@ -155,13 +188,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   OutlineInputBorder(borderRadius: BorderRadius.circular(5)),
               contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 8)),
         ));
-    
+
     final aadharField = Padding(
         padding: EdgeInsets.all(8),
         child: TextFormField(
           controller: aadharController,
           validator: (value) {
-            if (value.trim().isNotEmpty && value.length == 16) {
+            if (isValidAadharNumber(value)) {
               return null;
             }
             return "Enter valid Aadhar No.";

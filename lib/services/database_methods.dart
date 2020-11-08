@@ -31,7 +31,7 @@ class DatabaseMethods {
           "phone": phone,
           "city": city,
           "aadhar": aadhar,
-          "isSafe":true,
+          "isSafe": true,
         },
       );
       print(email);
@@ -120,25 +120,29 @@ class DatabaseMethods {
     final HttpsCallable callable = FirebaseFunctions.instance.httpsCallable(
       'sendDangerAlert',
     );
-    await _database.collection("users").doc(CONSTANT_UID).update({"isSafe":false});
     await callable.call(<String, dynamic>{
       'latitude': userLocation.latitude,
       'longitude': userLocation.longitude,
       'uid': CONSTANT_UID
     });
+    await _database
+        .collection("users")
+        .doc(CONSTANT_UID)
+        .update({"isSafe": false});
   }
 
   Future _triggerSafeCloudFunction() async {
-    Position userLocation = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
+    // Position userLocation = await Geolocator.getCurrentPosition(
+    //     desiredAccuracy: LocationAccuracy.high);
 
     final HttpsCallable callable = FirebaseFunctions.instance.httpsCallable(
-      'sendDangerAlert',
+      'sendSafeAlert',
     );
-    await callable.call(<String, double>{
-      'latitude': userLocation.latitude,
-      'longitude': userLocation.longitude
-    });
+    await callable.call(<String, dynamic>{'uid': CONSTANT_UID});
+    await _database
+        .collection("users")
+        .doc(CONSTANT_UID)
+        .update({"isSafe": true});
   }
 
   Future sendDangerAlert() async {
@@ -161,19 +165,7 @@ class DatabaseMethods {
 
   Future sendSafeAlert() async {
     try {
-      LocationPermission permission = await Geolocator.checkPermission();
-
-      if (LocationPermission.denied.index == permission.index) {
-        LocationPermission permission2 = await Geolocator.requestPermission();
-
-        if (LocationPermission.whileInUse.index == permission2.index ||
-            LocationPermission.always.index == permission2.index) {
-          await _triggerAlertCloudFunction();
-        }
-      } else if (LocationPermission.whileInUse.index == permission.index ||
-          LocationPermission.always.index == permission.index) {
-        await _triggerAlertCloudFunction();
-      }
+      await _triggerSafeCloudFunction();
     } on Exception catch (e) {}
   }
 
@@ -227,14 +219,16 @@ class DatabaseMethods {
   }
 
   Stream<List<LocalUser>> getPeopleWhoTrustMe() {
-    Stream<List<LocalUser>> stream =  _database
+    Stream<List<LocalUser>> stream = _database
         .collection("users")
         .where("trustedContacts", arrayContains: CONSTANT_UID)
         .snapshots()
         .map((event) => event.docs
             .map((e) => firebaseUserToLocalUser(snapshot: e))
             .toList());
-    stream.listen((event) {print(event.toString()+"hell");});
+    stream.listen((event) {
+      print(event.toString() + "hell");
+    });
     return stream;
   }
 
