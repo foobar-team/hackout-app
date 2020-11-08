@@ -8,6 +8,8 @@ import 'package:google_maps_webservice/places.dart';
 
 const APIKEY = "AIzaSyAL66XlbNv6qIjjY70sf9WYGpCuLjDeP0w";
 
+///////////////////THIS FEATURE IS JUST A DUMMY///////////////////////////////////
+
 class ReviewsMap extends StatefulWidget {
   static String route = "reviews_map";
 
@@ -19,7 +21,6 @@ class MapSampleState extends State<ReviewsMap> {
   Completer<GoogleMapController> _controller = Completer();
   final Set<Heatmap> _heatmaps = {};
   BitmapDescriptor sourceIcon;
-
 
   Set<Marker> _markers;
 
@@ -33,17 +34,16 @@ class MapSampleState extends State<ReviewsMap> {
     var lat = user.data()['location']['latitude'];
     var lon = user.data()['location']['longitude'];
     LatLng loc = LatLng(lat, lon);
+    _heatmapLocation = loc;
+
+
     CameraPosition _currentLocation = CameraPosition(
       target: loc,
       zoom: 17.4746,
     );
     setState(() {
       _markers = {
-        Marker(
-          markerId: MarkerId('value'),
-          position: loc,
-          icon:sourceIcon
-        ),
+        Marker(markerId: MarkerId('value'), position: loc, icon: sourceIcon),
       };
     });
     return _currentLocation;
@@ -58,7 +58,7 @@ class MapSampleState extends State<ReviewsMap> {
   Map reviewLoc = {"latitude": 1, "longitude": 1};
 
   final places = GoogleMapsPlaces(apiKey: APIKEY);
-  LatLng _heatmapLocation = LatLng(37.42796133580664, -122.085749655962);
+  LatLng _heatmapLocation ;
   List<Map> _searchPlaces = [];
 
   int q1, q2, q3, q4, q5, q6, q7, q8;
@@ -69,24 +69,24 @@ class MapSampleState extends State<ReviewsMap> {
     q1 = q2 = q3 = q4 = q5 = q6 = q7 = q8 = -1;
     setSourceIcons();
     _markers = {
-    Marker(
-    markerId: MarkerId('value'),
-    position: LatLng(28.632893, 437.219491),
-    icon:sourceIcon,
-    )
+      Marker(
+        markerId: MarkerId('value'),
+        position: LatLng(28.632893, 437.219491),
+        icon: sourceIcon,
+      )
     };
-
-
   }
+
   void setSourceIcons() async {
     sourceIcon = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(devicePixelRatio: 2.5,),
+        ImageConfiguration(
+          devicePixelRatio: 2.5,
+        ),
         'assets/images/marker.png');
-
-
   }
 
   var isValid = true;
+
   void calcAndSubmitScore() {
     int score = 0;
     if (q1 == 0)
@@ -504,9 +504,9 @@ class MapSampleState extends State<ReviewsMap> {
                                       if (isValid) {
                                         calcAndSubmitScore();
                                         Navigator.pop(context);
-                                        state((){
-                                        q1=q2=q3=q4=q5=q6=-1;
-                                      });
+                                        state(() {
+                                          q1 = q2 = q3 = q4 = q5 = q6 = -1;
+                                        });
                                       }
                                     },
                                   ),
@@ -566,6 +566,8 @@ class MapSampleState extends State<ReviewsMap> {
         future: _getCurrentLocation(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
+
+
             return Scaffold(
               body: Stack(
                 children: [
@@ -575,6 +577,19 @@ class MapSampleState extends State<ReviewsMap> {
                     heatmaps: _heatmaps,
                     markers: _markers,
                     onMapCreated: (GoogleMapController controller) {
+                      setState(() {
+                        _heatmaps.add(
+                            Heatmap(
+                                heatmapId: HeatmapId(_heatmapLocation.toString()),
+                                points: _createPoints(_heatmapLocation),
+                                radius: 50,
+                                visible: true,
+                                gradient:  HeatmapGradient(
+                                    colors: <Color>[Colors.green, Colors.red], startPoints: <double>[0.2, 0.8]
+                                )
+                            )
+                        );
+                      });
                       _controller.complete(controller);
                     },
                   ),
@@ -595,7 +610,6 @@ class MapSampleState extends State<ReviewsMap> {
                               print(_searchFieldController.text);
                             },
                             onChanged: (text) {
-                              
                               getLocationResult(text);
                             },
                             cursorColor: Colors.black,
@@ -614,26 +628,28 @@ class MapSampleState extends State<ReviewsMap> {
                               return ListTile(
                                 title: Text(_searchPlaces[index]["city"]),
                                 onTap: () async {
-                                  var latitude = _searchPlaces[index]["latitude"];
-                                  var longitude =  _searchPlaces[index]["longitude"];
+                                  var latitude =
+                                      _searchPlaces[index]["latitude"];
+                                  var longitude =
+                                      _searchPlaces[index]["longitude"];
                                   CameraPosition cPosition = CameraPosition(
-                                      zoom: 5.5,
-                                      target: LatLng(latitude,
-                                          longitude),
-                                    );
-                                    final GoogleMapController controller = await _controller.future;
-                                    controller.animateCamera(CameraUpdate.newCameraPosition(cPosition));
-                                  
-                                  setState((){
+                                    zoom: 5.5,
+                                    target: LatLng(latitude, longitude),
+                                  );
+                                  final GoogleMapController controller =
+                                      await _controller.future;
+                                  controller.animateCamera(
+                                      CameraUpdate.newCameraPosition(
+                                          cPosition));
+
+                                  setState(() {
                                     _searchPlaces = [];
                                     _searchFieldController.text = "";
                                     _markers.removeWhere(
-                                      (m) =>  m.markerId.value == 'value'
-                                    );
+                                        (m) => m.markerId.value == 'value');
                                     _markers.add(Marker(
-                                      markerId : MarkerId('value'),
-                                       position: LatLng(latitude, longitude)
-                                    ));
+                                        markerId: MarkerId('value'),
+                                        position: LatLng(latitude, longitude)));
                                   });
 
                                   print(_markers);
@@ -660,18 +676,7 @@ class MapSampleState extends State<ReviewsMap> {
         });
   }
 
-  void _addHeatmap() {
-    setState(() {
-      _heatmaps.add(Heatmap(
-          heatmapId: HeatmapId(_heatmapLocation.toString()),
-          points: _createPoints(_heatmapLocation),
-          radius: 20,
-          visible: true,
-          gradient: HeatmapGradient(
-              colors: <Color>[Colors.green, Colors.red],
-              startPoints: <double>[0.2, 0.8])));
-    });
-  }
+
 
   //heatmap generation helper functions
   List<WeightedLatLng> _createPoints(LatLng location) {
