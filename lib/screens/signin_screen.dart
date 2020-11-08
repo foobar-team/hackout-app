@@ -90,6 +90,7 @@ class _SignInScreenState extends State<SignInScreen> {
     final passwordField = Padding(
       padding: EdgeInsets.all(8),
       child: TextFormField(
+        obscureText: true,
         validator: (value) {
           if (value.length >= 6) {
             return null;
@@ -117,7 +118,7 @@ class _SignInScreenState extends State<SignInScreen> {
             child: RaisedButton(
               color: Color(0xffdf1d38),
               child: Text(
-                "Sign In",
+                "Log In",
                 style: TextStyle(
                   color: Colors.white,
                 ),
@@ -149,7 +150,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Text(
-                      "Sign In",
+                      "Log In",
                       style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.blueGrey,
