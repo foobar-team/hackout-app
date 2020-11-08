@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "670899585141",
-    "firebase_url": "https://helpfem-64554.firebaseio.com",
-    "project_id": "helpfem-64554",
-    "storage_bucket": "helpfem-64554.appspot.com"
+    "project_number": "202963419642",
+    "firebase_url": "https://helpher-ef9fe.firebaseio.com",
+    "project_id": "helpher-ef9fe",
+    "storage_bucket": "helpher-ef9fe.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:670899585141:android:33b4a70ac9c856b9fb783c",
+        "mobilesdk_app_id": "1:202963419642:android:ea769176b5f2691b75a443",
         "android_client_info": {
           "package_name": "com.foobar.helpfem"
         }
       },
       "oauth_client": [
         {
-          "client_id": "670899585141-jhkod28mn19n4krcajnbonkdngmkqn4i.apps.googleusercontent.com",
+          "client_id": "202963419642-nuodefiei5bpl59f0vbua4vnfd549aeh.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDD9PkphqktdYDXa3217f58CAfKewp7730"
+          "current_key": "AIzaSyDlyHzGWOYbgjA1zuR0C72qLS5sDNVByVw"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "670899585141-jhkod28mn19n4krcajnbonkdngmkqn4i.apps.googleusercontent.com",
+              "client_id": "202963419642-nuodefiei5bpl59f0vbua4vnfd549aeh.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
