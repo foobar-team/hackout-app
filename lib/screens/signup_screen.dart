@@ -125,7 +125,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         child: TextFormField(
           controller: phoneController,
           validator: (value) {
-            if (value.trim().isNotEmpty && value.length != 16) {
+            if (value.trim().isNotEmpty && value.length == 10) {
               return null;
             }
             return "Enter a 10 digit valid Phone No.";
@@ -161,7 +161,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         child: TextFormField(
           controller: aadharController,
           validator: (value) {
-            if (value.trim().isNotEmpty && value.length != 16) {
+            if (value.trim().isNotEmpty && value.length == 16) {
               return null;
             }
             return "Enter valid Aadhar No.";
