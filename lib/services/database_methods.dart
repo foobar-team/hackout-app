@@ -2,7 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter_background_geolocation/flutter_background_geolocation.dart'
+    as bg;
 import 'package:foobar/model/danger_notification.dart';
+import 'package:foobar/model/local_location.dart';
 import 'package:foobar/model/local_user.dart';
 import 'package:foobar/utils/user_constants.dart';
 import 'package:geolocator/geolocator.dart';
@@ -116,6 +119,7 @@ class DatabaseMethods {
     final HttpsCallable callable = FirebaseFunctions.instance.httpsCallable(
       'sendDangerAlert',
     );
+    await _database.collection("users").doc(CONSTANT_UID).update({"isSafe":false});
     await callable.call(<String, dynamic>{
       'latitude': userLocation.latitude,
       'longitude': userLocation.longitude,
@@ -205,7 +209,7 @@ class DatabaseMethods {
     }
   }
 
-  Future<bool> addTrustedContacts({String mobileNumber}) async {
+  Future<bool> addTrustedContact({String mobileNumber}) async {
     QuerySnapshot querySnapshot = await _database
         .collection("users")
         .where("phone", isEqualTo: mobileNumber)
@@ -222,21 +226,31 @@ class DatabaseMethods {
   }
 
   Stream<List<LocalUser>> getPeopleWhoTrustMe() {
-    return _database
+    Stream<List<LocalUser>> stream =  _database
         .collection("users")
         .where("trustedContacts", arrayContains: CONSTANT_UID)
         .snapshots()
         .map((event) => event.docs
             .map((e) => firebaseUserToLocalUser(snapshot: e))
             .toList());
+    stream.listen((event) {print(event.toString()+"hell");});
+    return stream;
   }
 
   LocalUser firebaseUserToLocalUser({QueryDocumentSnapshot snapshot}) {
     return LocalUser(
         name: snapshot["name"],
-        adhaar: snapshot["adhaar"],
+        adhaar: snapshot["aadhar"],
         city: snapshot["city"],
         isSafe: snapshot["isSafe"],
-        phone: snapshot["phone"]);
+        phone: snapshot["phone"],
+        uid: snapshot["uid"]);
+  }
+
+  Stream<LocalLocation> getUserLiveLocation({String uid}) {
+    return _database.collection("liveLocations").doc(uid).snapshots().map(
+        (event) => LocalLocation(
+            latitude: event.data()["location"]["coords"]["latitude"],
+            longitude: event.data()["location"]["coords"]["longitude"]));
   }
 }

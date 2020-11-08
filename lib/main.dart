@@ -5,6 +5,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:foobar/screens/home.dart';
 import 'package:foobar/screens/intro_screen/intro_screen.dart';
+import 'package:foobar/screens/live_location.dart';
 import 'package:foobar/screens/notify_danger_screen.dart';
 import 'package:foobar/screens/signin_screen.dart';
 import 'package:foobar/screens/signup_screen.dart';
@@ -20,14 +21,7 @@ void headlessTask(bg.HeadlessEvent headlessEvent) async {
   print('[BackgroundGeolocation HeadlessTask]: $headlessEvent');
   // Implement a 'case' for only those events you're interested in.
   switch(headlessEvent.name) {
-    case bg.Event.TERMINATE:
-      bg.State state = headlessEvent.event;
-      print('- State: $state');
-      break;
-    case bg.Event.HEARTBEAT:
-      bg.HeartbeatEvent event = headlessEvent.event;
-      print('- HeartbeatEvent: $event');
-      break;
+
     case bg.Event.LOCATION:
       bg.Location location = headlessEvent.event;
       print('- Location: $location');
@@ -36,38 +30,7 @@ void headlessTask(bg.HeadlessEvent headlessEvent) async {
       bg.Location location = headlessEvent.event;
       print('- Location: $location');
       break;
-    case bg.Event.GEOFENCE:
-      bg.GeofenceEvent geofenceEvent = headlessEvent.event;
-      print('- GeofenceEvent: $geofenceEvent');
-      break;
-    case bg.Event.GEOFENCESCHANGE:
-      bg.GeofencesChangeEvent event = headlessEvent.event;
-      print('- GeofencesChangeEvent: $event');
-      break;
-    case bg.Event.SCHEDULE:
-      bg.State state = headlessEvent.event;
-      print('- State: $state');
-      break;
-    case bg.Event.ACTIVITYCHANGE:
-      bg.ActivityChangeEvent event = headlessEvent.event;
-      print('ActivityChangeEvent: $event');
-      break;
-    case bg.Event.HTTP:
-      bg.HttpEvent response = headlessEvent.event;
-      print('HttpEvent: $response');
-      break;
-    case bg.Event.POWERSAVECHANGE:
-      bool enabled = headlessEvent.event;
-      print('ProviderChangeEvent: $enabled');
-      break;
-    case bg.Event.CONNECTIVITYCHANGE:
-      bg.ConnectivityChangeEvent event = headlessEvent.event;
-      print('ConnectivityChangeEvent: $event');
-      break;
-    case bg.Event.ENABLEDCHANGE:
-      bool enabled = headlessEvent.event;
-      print('EnabledChangeEvent: $enabled');
-      break;
+
   }
 }
 
@@ -111,6 +74,8 @@ class MyApp extends StatelessWidget {
         SignUpScreen.route: (_) => SignUpScreen(),
         SignInScreen.route: (_) => SignInScreen(),
         HomeScreen.route: (_) => HomeScreen(),
+        LiveLocation.route:(_) =>LiveLocation()
+
       },
     );
   }
