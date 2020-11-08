@@ -79,123 +79,6 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
     super.dispose();
   }
 
-  showSentDialog() {
-    showDialog(
-      context: context,
-      builder: (context) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 70, horizontal: 20),
-        child: Neumorphic(
-            child: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 20.0, horizontal: 10.0),
-                      child: NeumorphicButton(
-                        onPressed: () {
-                          print('Pressed !');
-                        },
-                        child: Text(
-                          "Record Audio",
-                          style: TextStyle(fontSize: 20),
-                        ),
-                      )),
-                  Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 20.0, horizontal: 10.0),
-                      child: NeumorphicButton(
-                        onPressed: () {
-                          print('Pressed !');
-                        },
-                        child: Text(
-                          'Trigger Siren',
-                          style: TextStyle(fontSize: 20),
-                        ),
-                      ))
-                ],
-              ),
-              CarouselSlider(
-                options: CarouselOptions(
-                  height: 300,
-                  aspectRatio: 16 / 9,
-                  viewportFraction: 0.8,
-                  initialPage: 0,
-                  enableInfiniteScroll: true,
-                  reverse: false,
-                  autoPlay: true,
-                  autoPlayInterval: Duration(seconds: 3),
-                  autoPlayAnimationDuration: Duration(milliseconds: 800),
-                  autoPlayCurve: Curves.fastOutSlowIn,
-                  scrollDirection: Axis.horizontal,
-                ),
-                items: [1, 2, 3, 4, 5].map((i) {
-                  return Builder(
-                    builder: (BuildContext context) {
-                      return Container(
-                          alignment: Alignment.center,
-                          width: MediaQuery.of(context).size.width,
-                          margin: EdgeInsets.symmetric(horizontal: 5.0),
-                          decoration: BoxDecoration(
-                              color: Colors.amber,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(5.0))),
-                          child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 20.0, horizontal: 20.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                      padding: EdgeInsets.only(bottom: 30.0),
-                                      child: Text(
-                                        selfDefense[i - 1]["title"],
-                                        style: TextStyle(
-                                            fontSize: 16.0,
-                                            fontWeight: FontWeight.bold),
-                                        textAlign: TextAlign.center,
-                                      )),
-                                  Text(
-                                    selfDefense[i - 1]["content"],
-                                    style: TextStyle(fontSize: 16.0),
-                                    textAlign: TextAlign.center,
-                                  )
-                                ],
-                              )));
-                    },
-                  );
-                }).toList(),
-              ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 20.0, horizontal: 20.0),
-                      child: NeumorphicButton(
-                        onPressed: () {
-                          sendSafe();
-                        },
-                        child: Text(
-                          "I'm safe now :-)",
-                          style: TextStyle(fontSize: 20),
-                        ),
-                      ))
-                ],
-              ),
-            ],
-          ),
-        )),
-      ),
-    );
-  }
-
   sendAlert() async {
     setState(() {
       isLoading = true;
@@ -366,7 +249,10 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
                                                           selfDefense[i - 1]
                                                               ["title"],
                                                           style: TextStyle(
-                                                              fontSize: 16.0),
+                                                              fontSize: 16.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
                                                           textAlign:
                                                               TextAlign.center,
                                                         )),

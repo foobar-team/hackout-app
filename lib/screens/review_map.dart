@@ -20,7 +20,6 @@ class MapSampleState extends State<ReviewsMap> {
   final Set<Heatmap> _heatmaps = {};
   BitmapDescriptor sourceIcon;
 
-
   Set<Marker> _markers;
 
   final _searchFieldController = TextEditingController();
@@ -28,7 +27,6 @@ class MapSampleState extends State<ReviewsMap> {
   final _formKey = GlobalKey<FormState>();
 
   Future<dynamic> _getCurrentLocation() async {
-    print('1');
     var user = await _databaseMethods.getUserInfo();
     var lat = user.data()['location']['latitude'];
     var lon = user.data()['location']['longitude'];
@@ -39,11 +37,7 @@ class MapSampleState extends State<ReviewsMap> {
     );
     setState(() {
       _markers = {
-        Marker(
-          markerId: MarkerId('value'),
-          position: loc,
-          icon:sourceIcon
-        ),
+        Marker(markerId: MarkerId('value'), position: loc, icon: sourceIcon),
       };
     });
     return _currentLocation;
@@ -69,21 +63,20 @@ class MapSampleState extends State<ReviewsMap> {
     q1 = q2 = q3 = q4 = q5 = q6 = q7 = q8 = -1;
     setSourceIcons();
     _markers = {
-    Marker(
-    markerId: MarkerId('value'),
-    position: LatLng(28.632893, 437.219491),
-    icon:sourceIcon,
-    )
+      Marker(
+        markerId: MarkerId('value'),
+        position: LatLng(28.632893, 437.219491),
+        icon: sourceIcon,
+      )
     };
-
-
   }
+
   void setSourceIcons() async {
     sourceIcon = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(devicePixelRatio: 2.5,),
+        ImageConfiguration(
+          devicePixelRatio: 2.5,
+        ),
         'assets/images/marker.png');
-
-
   }
 
   var isValid = true;
@@ -504,9 +497,9 @@ class MapSampleState extends State<ReviewsMap> {
                                       if (isValid) {
                                         calcAndSubmitScore();
                                         Navigator.pop(context);
-                                        state((){
-                                        q1=q2=q3=q4=q5=q6=-1;
-                                      });
+                                        state(() {
+                                          q1 = q2 = q3 = q4 = q5 = q6 = -1;
+                                        });
                                       }
                                     },
                                   ),
@@ -595,7 +588,6 @@ class MapSampleState extends State<ReviewsMap> {
                               print(_searchFieldController.text);
                             },
                             onChanged: (text) {
-                              
                               getLocationResult(text);
                             },
                             cursorColor: Colors.black,
@@ -614,26 +606,28 @@ class MapSampleState extends State<ReviewsMap> {
                               return ListTile(
                                 title: Text(_searchPlaces[index]["city"]),
                                 onTap: () async {
-                                  var latitude = _searchPlaces[index]["latitude"];
-                                  var longitude =  _searchPlaces[index]["longitude"];
+                                  var latitude =
+                                      _searchPlaces[index]["latitude"];
+                                  var longitude =
+                                      _searchPlaces[index]["longitude"];
                                   CameraPosition cPosition = CameraPosition(
-                                      zoom: 15.5,
-                                      target: LatLng(latitude,
-                                          longitude),
-                                    );
-                                    final GoogleMapController controller = await _controller.future;
-                                    controller.animateCamera(CameraUpdate.newCameraPosition(cPosition));
-                                  
-                                  setState((){
+                                    zoom: 15.5,
+                                    target: LatLng(latitude, longitude),
+                                  );
+                                  final GoogleMapController controller =
+                                      await _controller.future;
+                                  controller.animateCamera(
+                                      CameraUpdate.newCameraPosition(
+                                          cPosition));
+
+                                  setState(() {
                                     _searchPlaces = [];
                                     _searchFieldController.text = "";
                                     _markers.removeWhere(
-                                      (m) =>  m.markerId.value == 'value'
-                                    );
+                                        (m) => m.markerId.value == 'value');
                                     _markers.add(Marker(
-                                      markerId : MarkerId('value'),
-                                       position: LatLng(latitude, longitude)
-                                    ));
+                                        markerId: MarkerId('value'),
+                                        position: LatLng(latitude, longitude)));
                                   });
 
                                   print(_markers);
