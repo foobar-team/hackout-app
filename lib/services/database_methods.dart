@@ -90,16 +90,13 @@ class DatabaseMethods {
   }
 
   Future _triggerSafeCloudFunction() async {
-    Position userLocation = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
+    // Position userLocation = await Geolocator.getCurrentPosition(
+    //     desiredAccuracy: LocationAccuracy.high);
 
     final HttpsCallable callable = FirebaseFunctions.instance.httpsCallable(
-      'sendDangerAlert',
+      'sendSafeAlert',
     );
-    await callable.call(<String, double>{
-      'latitude': userLocation.latitude,
-      'longitude': userLocation.longitude
-    });
+    await callable.call(<String, dynamic>{'uid': CONSTANT_UID});
   }
 
   Future sendDangerAlert() async {
@@ -122,19 +119,7 @@ class DatabaseMethods {
 
   Future sendSafeAlert() async {
     try {
-      LocationPermission permission = await Geolocator.checkPermission();
-
-      if (LocationPermission.denied.index == permission.index) {
-        LocationPermission permission2 = await Geolocator.requestPermission();
-
-        if (LocationPermission.whileInUse.index == permission2.index ||
-            LocationPermission.always.index == permission2.index) {
-          await _triggerAlertCloudFunction();
-        }
-      } else if (LocationPermission.whileInUse.index == permission.index ||
-          LocationPermission.always.index == permission.index) {
-        await _triggerAlertCloudFunction();
-      }
+      await _triggerSafeCloudFunction();
     } on Exception catch (e) {}
   }
 

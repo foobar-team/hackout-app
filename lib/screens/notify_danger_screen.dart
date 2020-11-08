@@ -123,7 +123,7 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
                           vertical: 40.0, horizontal: 20.0),
                       child: NeumorphicButton(
                         onPressed: () {
-                          print('Pressed !');
+                          sendSafe();
                         },
                         child: Text(
                           "I'm safe now :-)",
@@ -153,6 +153,7 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
   }
 
   sendSafe() async {
+    print("sendSafe");
     setState(() {
       isLoading = true;
     });
