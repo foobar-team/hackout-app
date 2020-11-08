@@ -225,48 +225,47 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
     return Scaffold(
       key: _scaffoldKey,
-      body:  Stack(children: [
+      body: Center(
+        child: Stack(children: [
           IgnorePointer(
             ignoring: isLoading,
-            child: Center(
-              child: SingleChildScrollView(
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Text(
-                          "Sign Up",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.blueGrey,
-                              fontSize: 35),
+            child: SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Text(
+                        "Sign Up",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.blueGrey,
+                            fontSize: 35),
+                      ),
+                      SizedBox(
+                        height: 50,
+                      ),
+                      nameField,
+                      emailField,
+                      phoneField,
+                      cityField,
+                      aadharField,
+                      passwordField,
+                      signUpButton,
+                      GestureDetector(
+                        child: Text(
+                          "Log In",
+                          style: TextStyle(color: Colors.blueGrey, fontSize: 20),
                         ),
-                        SizedBox(
-                          height: 50,
-                        ),
-                        nameField,
-                        emailField,
-                        phoneField,
-                        cityField,
-                        aadharField,
-                        passwordField,
-                        signUpButton,
-                        GestureDetector(
-                          child: Text(
-                            "Log In",
-                            style: TextStyle(color: Colors.blueGrey, fontSize: 20),
-                          ),
-                          onTap: () {
-                            Navigator.pushReplacementNamed(
-                                context, SignInScreen.route);
-                          },
-                        )
-                      ],
-                    ),
+                        onTap: () {
+                          Navigator.pushReplacementNamed(
+                              context, SignInScreen.route);
+                        },
+                      )
+                    ],
+                  ),
 
-                ),
               ),
             ),
           ),
@@ -276,7 +275,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 )
               : Container()
         ]),
-
+      ),
     );
   }
 }

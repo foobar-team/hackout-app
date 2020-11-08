@@ -39,11 +39,12 @@ dependencies:
   flutter_neumorphic: ^3.0.3
   dots_indicator: ^1.2.0
   transparent_image: ^1.0.0
-
+  dio:
   google_maps_flutter_heatmap:
   carousel_slider:
   holding_gesture:
-
+  geocoder: ^0.2.1
+  google_maps_webservice: ^0.0.18
 
   flutter_background_geolocation: ^1.9.0
   background_geolocation_firebase: ^0.1.0
