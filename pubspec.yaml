@@ -45,6 +45,7 @@ dependencies:
   holding_gesture:
   geocoder: ^0.2.1
   google_maps_webservice: ^0.0.18
+  flutter_ringtone_player:
 
   flutter_background_geolocation: ^1.9.0
   background_geolocation_firebase: ^0.1.0

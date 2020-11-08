@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:foobar/services/database_methods.dart';
 import 'package:foobar/utils/user_constants.dart';
+import 'package:foobar/utils/methods.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 import 'package:holding_gesture/holding_gesture.dart';
@@ -23,6 +24,7 @@ class NotifyDangerScreen extends StatefulWidget {
 class _NotifyDangerScreenState extends State<NotifyDangerScreen>
     with SingleTickerProviderStateMixin {
   DatabaseMethods _databaseMethods = DatabaseMethods();
+  UtilMethods _utilMethods = UtilMethods();
   bool isLoading = false;
   AnimationController _controller;
   bool alertSent = false;
@@ -38,6 +40,7 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
       "content":
           "Don't run as you could get yourself in a big trap with the stalker and if you really feel scared, stop at a well-lit public place, such as a restaurant or hotel. Call the police or family and friends and ask them to escort you to your home, or stay with them (either police or family and friends) for a while."
     },
+<<<<<<< HEAD
     {
       "title": "Where to go Now?",
       "content":
@@ -53,6 +56,12 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
       "content":
           "Project confidence and awareness so that you’re not an easy target because they try to prey on easy targets: people who aren’t very aware of their environment and who can be ambushed easily. Avoid making eye contact with anyone who you feel may be following you, but be aware of your surroundings."
     }
+=======
+    {"title": "", "content": ""},
+    {"title": "", "content": ""},
+    {"title": "", "content": ""},
+    {"title": "", "content": ""}
+>>>>>>> ebd564749975bfe9a2fa435906790ca0ccbf7d3a
   ];
 
   @override
@@ -202,7 +211,6 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
     setState(() {
       alertSent = true;
       isLoading = false;
-      showSentDialog();
     });
     print((await bg.BackgroundGeolocation.getCurrentPosition()).toString() +
         "ahsdhashdhhell");
@@ -259,19 +267,12 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
       isLoading = false;
     });
     bg.BackgroundGeolocation.stop();
+    _utilMethods.stopSilern();
+    this._controller.reset();
   }
 
   alertButtonOnPress() async {
     this._controller.forward();
-  }
-
-  Timer timer;
-
-  void startTimer() {
-    // Start the periodic timer which prints something every 1 seconds
-    timer = Timer.periodic(new Duration(seconds: 1), (time) {
-      print('Something');
-    });
   }
 
   @override
@@ -288,42 +289,166 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
                 children: [
                   HoldDetector(
                     onHold: () => {print("holding")},
-                    child: CircularPercentIndicator(
-                      progressColor: Colors.blueGrey,
-                      radius: 200,
-                      lineWidth: 5,
-                      percent: this._controller.value,
-                      startAngle: 0,
-                      center: Padding(
-                        padding: const EdgeInsets.all(3),
-                        child: NeumorphicButton(
-                          onPressed: !alertSent ? alertButtonOnPress : () {},
-                          child: Center(
-                              child: alertSent
-                                  ? Text(
-                                      "ALERT SENT!",
-                                      style: TextStyle(fontSize: 25),
-                                    )
-                                  : (this._controller.value == 0
-                                      ? Text(
-                                          "Alert",
-                                          style: TextStyle(
-                                              fontSize: 30,
-                                              fontWeight: FontWeight.w300),
-                                        )
-                                      : Text(
-                                          "${(5 - this._controller.value * 5).toStringAsFixed(0)}",
-                                          style: TextStyle(fontSize: 30),
-                                        ))),
-                          style: NeumorphicStyle(
-                            shape: NeumorphicShape.convex,
-                            boxShape: NeumorphicBoxShape.circle(),
-                            depth: 50,
-                            color: Colors.white,
+                    child: alertSent
+                        ? Neumorphic(
+                            child: Center(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 20.0, horizontal: 10.0),
+                                        child: NeumorphicButton(
+                                          onPressed: () {
+                                            print('Pressed !');
+                                          },
+                                          child: Text(
+                                            "Record Audio",
+                                            style: TextStyle(fontSize: 20),
+                                          ),
+                                        )),
+                                    Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 20.0, horizontal: 10.0),
+                                        child: NeumorphicButton(
+                                          onPressed: () {
+                                            _utilMethods.startSilern();
+                                          },
+                                          child: Text(
+                                            'Trigger Siren',
+                                            style: TextStyle(fontSize: 20),
+                                          ),
+                                        ))
+                                  ],
+                                ),
+                                CarouselSlider(
+                                  options: CarouselOptions(
+                                    height: 300,
+                                    aspectRatio: 16 / 9,
+                                    viewportFraction: 0.8,
+                                    initialPage: 0,
+                                    enableInfiniteScroll: true,
+                                    reverse: false,
+                                    autoPlay: true,
+                                    autoPlayInterval: Duration(seconds: 3),
+                                    autoPlayAnimationDuration:
+                                        Duration(milliseconds: 800),
+                                    autoPlayCurve: Curves.fastOutSlowIn,
+                                    scrollDirection: Axis.horizontal,
+                                  ),
+                                  items: [1, 2, 3, 4, 5].map((i) {
+                                    return Builder(
+                                      builder: (BuildContext context) {
+                                        return Container(
+                                            alignment: Alignment.center,
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                            margin: EdgeInsets.symmetric(
+                                                horizontal: 5.0),
+                                            decoration: BoxDecoration(
+                                                color: Colors.amber,
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(5.0))),
+                                            child: Padding(
+                                                padding: EdgeInsets.symmetric(
+                                                    vertical: 20.0,
+                                                    horizontal: 20.0),
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    Padding(
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                bottom: 30.0),
+                                                        child: Text(
+                                                          selfdefense[i - 1]
+                                                              ["title"],
+                                                          style: TextStyle(
+                                                              fontSize: 16.0),
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                        )),
+                                                    Text(
+                                                      selfdefense[i - 1]
+                                                          ["content"],
+                                                      style: TextStyle(
+                                                          fontSize: 16.0),
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                    )
+                                                  ],
+                                                )));
+                                      },
+                                    );
+                                  }).toList(),
+                                ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Padding(
+                                        padding: EdgeInsets.symmetric(
+                                            vertical: 20.0, horizontal: 20.0),
+                                        child: NeumorphicButton(
+                                          onPressed: () {
+                                            sendSafe();
+                                          },
+                                          child: Text(
+                                            "I'm safe now :-)",
+                                            style: TextStyle(fontSize: 20),
+                                          ),
+                                        ))
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ))
+                        : CircularPercentIndicator(
+                            progressColor: Colors.blueGrey,
+                            radius: 200,
+                            lineWidth: 5,
+                            percent: this._controller.value,
+                            startAngle: 0,
+                            center: Padding(
+                              padding: const EdgeInsets.all(3),
+                              child: NeumorphicButton(
+                                onPressed:
+                                    !alertSent ? alertButtonOnPress : () {},
+                                child: Center(
+                                    child: alertSent
+                                        ? Text(
+                                            "ALERT SENT!",
+                                            style: TextStyle(fontSize: 25),
+                                          )
+                                        : (this._controller.value == 0
+                                            ? Text(
+                                                "Alert",
+                                                style: TextStyle(
+                                                    fontSize: 30,
+                                                    fontWeight:
+                                                        FontWeight.w300),
+                                              )
+                                            : Text(
+                                                "${(5 - this._controller.value * 5).toStringAsFixed(0)}",
+                                                style: TextStyle(fontSize: 30),
+                                              ))),
+                                style: NeumorphicStyle(
+                                  shape: NeumorphicShape.convex,
+                                  boxShape: NeumorphicBoxShape.circle(),
+                                  depth: 50,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    ),
                   ),
                   _controller.isAnimating
                       ? Padding(
@@ -351,30 +476,3 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
     );
   }
 }
-
-// InkWell(
-// onTap: () async {
-// setState(() {
-// isLoading = true;
-// });
-// await _databaseMethods.sendDangerAlert();
-//
-// setState(() {
-// isLoading = false;
-// showSentDialog();
-// });
-// },
-// child: Padding(
-// padding: const EdgeInsets.all(8.0),
-// child: Container(
-// width: 200,
-// height: 200,
-// color: Colors.grey,
-// child: IconButton(
-// color: Colors.white,
-// icon: Icon(Icons.report_gmailerrorred_outlined),
-// iconSize: 100,
-// ),
-// ),
-// ),
-// ),
