@@ -46,7 +46,7 @@ class _DependentPeopleScreenState extends State<DependentPeopleScreen> {
         } else {
           if (snapshot.connectionState == ConnectionState.done) {
             return Center(
-              child: Text("Everyone is feeling safe in your area"),
+              child: Text("No one added you as there trusted contacts"),
             );
           }
           return Center(child: CircularProgressIndicator());

@@ -30,6 +30,7 @@ class DatabaseMethods {
           "phone": phone,
           "city": city,
           "aadhar": aadhar,
+          "isSafe":true,
         },
       );
       print(email);

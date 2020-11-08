@@ -211,6 +211,7 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
     setState(() {
       alertSent = false;
       isLoading = false;
+
     });
   }
 
