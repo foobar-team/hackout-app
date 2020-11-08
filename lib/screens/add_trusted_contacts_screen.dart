@@ -123,7 +123,11 @@ class _AddTrustedContactsScreenState extends State<AddTrustedContactsScreen> {
             ),
           ),
         ),
-        isLoading ? Center(child: CircularProgressIndicator(),) : Container()
+        isLoading
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : Container()
       ],
     );
   }

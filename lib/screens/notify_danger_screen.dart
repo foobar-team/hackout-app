@@ -72,36 +72,30 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 20.0, horizontal: 10.0),
-                      child: NeumorphicButton(
-                        onPressed: () {
-                          print('Pressed !');
-                        },
-                        child: Text(
-                          "Record Audio",
-                          style: TextStyle(fontSize: 20),
-                        ),
-                      )),
-                  Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 20.0, horizontal: 10.0),
-                      child: NeumorphicButton(
-                        onPressed: () {
-                          print('Pressed !');
-                        },
-                        child: Text(
-                          'Trigger Siren',
-                          style: TextStyle(fontSize: 20),
-                        ),
-                      ))
-                ],
-              ),
+              Padding(
+                  padding:
+                      EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
+                  child: NeumorphicButton(
+                    onPressed: () {
+                      print('Pressed !');
+                    },
+                    child: Text(
+                      "Record Audio",
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  )),
+              Padding(
+                  padding:
+                      EdgeInsets.symmetric(vertical: 20.0, horizontal: 10.0),
+                  child: NeumorphicButton(
+                    onPressed: () {
+                      print('Pressed !');
+                    },
+                    child: Text(
+                      'Trigger Siren',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  )),
               CarouselSlider(
                 options: CarouselOptions(
                   height: 300,
@@ -120,7 +114,7 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
                   return Builder(
                     builder: (BuildContext context) {
                       return Container(
-                        alignment: Alignment.center,
+                          alignment: Alignment.center,
                           width: MediaQuery.of(context).size.width,
                           margin: EdgeInsets.symmetric(horizontal: 5.0),
                           decoration: BoxDecoration(
@@ -134,11 +128,13 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Padding(padding: EdgeInsets.only(bottom: 30.0) , child:Text(
-                                    selfdefense[i - 1]["title"],
-                                    style: TextStyle(fontSize: 16.0),
-                                    textAlign: TextAlign.center,
-                                  )),
+                                  Padding(
+                                      padding: EdgeInsets.only(bottom: 30.0),
+                                      child: Text(
+                                        selfdefense[i - 1]["title"],
+                                        style: TextStyle(fontSize: 16.0),
+                                        textAlign: TextAlign.center,
+                                      )),
                                   Text(
                                     selfdefense[i - 1]["content"],
                                     style: TextStyle(fontSize: 16.0),
@@ -238,21 +234,11 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
     setState(() {
       alertSent = false;
       isLoading = false;
-
     });
   }
 
   alertButtonOnPress() async {
     this._controller.forward();
-  }
-
-  Timer timer;
-
-  void startTimer() {
-    // Start the periodic timer which prints something every 1 seconds
-    timer = Timer.periodic(new Duration(seconds: 1), (time) {
-      print('Something');
-    });
   }
 
   @override
@@ -332,30 +318,3 @@ class _NotifyDangerScreenState extends State<NotifyDangerScreen>
     );
   }
 }
-
-// InkWell(
-// onTap: () async {
-// setState(() {
-// isLoading = true;
-// });
-// await _databaseMethods.sendDangerAlert();
-//
-// setState(() {
-// isLoading = false;
-// showSentDialog();
-// });
-// },
-// child: Padding(
-// padding: const EdgeInsets.all(8.0),
-// child: Container(
-// width: 200,
-// height: 200,
-// color: Colors.grey,
-// child: IconButton(
-// color: Colors.white,
-// icon: Icon(Icons.report_gmailerrorred_outlined),
-// iconSize: 100,
-// ),
-// ),
-// ),
-// ),

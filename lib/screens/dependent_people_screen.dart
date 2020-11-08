@@ -17,9 +17,11 @@ class _DependentPeopleScreenState extends State<DependentPeopleScreen> {
       stream: _databaseMethods.getPeopleWhoTrustMe(),
       builder: (_, snapshot) {
         if (snapshot.hasData) {
-          print("data available"+snapshot.data.length.toString());
-          if(snapshot.data.isEmpty){
-            return Center(child: Text("Everyone is feeling safe near you"),);
+          print("data available" + snapshot.data.length.toString());
+          if (snapshot.data.isEmpty) {
+            return Center(
+              child: Text("No one added you as there trusted contacts"),
+            );
           }
           return ListView.builder(
             itemCount: snapshot.data.length,
@@ -28,13 +30,13 @@ class _DependentPeopleScreenState extends State<DependentPeopleScreen> {
               return Container(
                 color: user.isSafe ? Colors.green : Colors.redAccent,
                 child: ListTile(
-
                   leading: Icon(Icons.person),
                   title: Text(user.name),
-                  subtitle: Text(user.isSafe ? "The Person is safe" : "Danger! Click to open live location"),
-
-                  onTap: (){
-                    if(!user.isSafe) {
+                  subtitle: Text(user.isSafe
+                      ? "The Person is safe"
+                      : "Danger! Click to open live location"),
+                  onTap: () {
+                    if (!user.isSafe) {
                       Navigator.pushNamed(context, LiveLocation.route,
                           arguments: user);
                     }
