@@ -202,6 +202,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 "Sign Up",
                 style: TextStyle(
                   color: Colors.white,
+                  
                 ),
               ),
               onPressed: () async {
@@ -233,11 +234,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     "Sign Up",
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
-                        color: Colors.blueGrey,
+                        color: Color(0xFF3D3D71),
                         fontSize: 35),
                   ),
                   SizedBox(
-                    height: 50,
+                    height: 20,
                   ),
                   nameField,
                   emailField,
@@ -249,7 +250,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   GestureDetector(
                     child: Text(
                       "Log In",
-                      style: TextStyle(color: Colors.blueGrey, fontSize: 20),
+                      style: TextStyle(color: Color(0xFF3D3D71), fontSize: 20),
                     ),
                     onTap: () {
                       Navigator.pushReplacementNamed(

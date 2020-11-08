@@ -99,6 +99,7 @@ class _SignInScreenState extends State<SignInScreen> {
 
       padding: EdgeInsets.all(8),
       child: TextFormField(
+        obscureText: true,
         validator: (value) {
           if (value.length >= 6) {
             return null;
@@ -156,13 +157,13 @@ class _SignInScreenState extends State<SignInScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                   Text("Sign In",style: TextStyle(fontWeight: FontWeight.bold,color: Colors.blueGrey,fontSize: 35),),
+                   Text("Log In",style: TextStyle(fontWeight: FontWeight.bold,color: Color(0xFF3D3D71),fontSize: 35),),
                   SizedBox(height: 50,),
                   emailField,
                   passwordField,
                   signInButton,
                   GestureDetector(
-                    child: Text("Register",style: TextStyle(color: Colors.blueGrey,fontSize: 20),),
+                    child: Text("Register",style: TextStyle(color: Color(0xFF3D3D71),fontSize: 20),),
                     onTap: () {
                       Navigator.pushReplacementNamed(context, SignUpScreen.route);
                     },
