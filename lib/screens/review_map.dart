@@ -475,6 +475,7 @@ class MapSampleState extends State<ReviewsMap> {
                                     ),
                                   ),
                                   onPressed: () {
+                                    isValid = true;
                                     if (q1 == -1 ||
                                         q2 == -1 ||
                                         q3 == -1 ||
@@ -487,6 +488,10 @@ class MapSampleState extends State<ReviewsMap> {
                                     }
                                     if (isValid) {
                                       calcAndSubmitScore();
+                                      Navigator.pop(context);
+                                      state((){
+                                        q1=q2=q3=q4=q5=q6=-1;
+                                      });
                                     }
                                   },
                                 ),
